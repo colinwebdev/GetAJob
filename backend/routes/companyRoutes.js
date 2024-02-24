@@ -8,15 +8,17 @@ const {
     updateCompany
 } = require('../controllers/companyController')
 
-// const { protect } = require('../middleware/authMiddleware')
+const { protect } = require('../middleware/authMiddleware')
 
-router.get('/', getCompanies)
-router.post('/', createCompany)
+router
+    .route('/')
+    .get(protect, getCompanies)
+    .post(protect, createCompany)
 
 router
     .route('/:id')
-    .get(getCompany)
-    .delete(deleteCompany)
-    .put(updateCompany)
+    .get(protect, getCompany)
+    .delete(protect, deleteCompany)
+    .put(protect, updateCompany)
 
 module.exports = router

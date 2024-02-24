@@ -21,6 +21,8 @@ app.use('/api/listings', require('./routes/listingRoutes'))
 app.use('/api/companies', require('./routes/companyRoutes'))
 app.use('/api/skills', require('./routes/skillRoutes'))
 
+app.use('/api/users', require('./routes/userRoutes'))
+
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`)
 })

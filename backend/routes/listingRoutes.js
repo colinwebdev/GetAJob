@@ -8,15 +8,14 @@ const {
     updateListing
 } = require('../controllers/listingController')
 
-// const { protect } = require('../middleware/authMiddleware')
+const { protect } = require('../middleware/authMiddleware')
 
 router.get('/', getListings)
 router.post('/', createListing)
-// router.get('/:id', getListing)
 router
     .route('/:id')
-    .get(getListing)
-    .delete(deleteListing)
-    .put(updateListing)
+    .get(protect, getListing)
+    .delete(protect, deleteListing)
+    .put(protect, updateListing)
 
 module.exports = router
