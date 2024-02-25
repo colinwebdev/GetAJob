@@ -9,3 +9,5 @@ A personal dashboard for collecting and tracking job applications, with a double
 Starting - Technically my 3rd attempt, as I've refactored this project a few times over as I've learned more about React. It was getting unruly in just straight React so for this version I introduced Redux and Express, and brought in MongoDB.
 
 2/22/24 - Back end skeleton set up with schemas, controllers, and routes for the major aspects of companies, listings and skills. 
+
+2/23/24 - Created frontend framework for listings and companies, along with DB schemas. Can create companies, working on edits and listing creation.

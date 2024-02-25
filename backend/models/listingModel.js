@@ -9,7 +9,12 @@ const listingSchema = mongoose.Schema(
         companyID: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
-            ref: 'Company',
+            ref: 'Companies',
+        },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'Users'
         },
         datePosted: {
             type: Date,
@@ -41,7 +46,7 @@ const listingSchema = mongoose.Schema(
         },
         description: [String],
         benefits: [String],
-        requirements: [String],
+        qualifications: [String],
         duration: {
             type: String,
         },

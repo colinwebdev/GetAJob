@@ -1,0 +1,300 @@
+@font-face {
+  font-family: "Michroma";
+  src: url(../fonts/Michroma-Regular.ttf);
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Robo";
+  src: url(../fonts/Roboto-Thin.ttf);
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Robo";
+  src: url(../fonts/Roboto-ThinItalic.ttf);
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Robo";
+  src: url(../fonts/Roboto-Light.ttf);
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Robo";
+  src: url(../fonts/Roboto-LightItalic.ttf);
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Robo";
+  src: url(../fonts/Roboto-Regular.ttf);
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Robo";
+  src: url(../fonts/Roboto-Italic.ttf);
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Robo";
+  src: url(../fonts/Roboto-Medium.ttf);
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Robo";
+  src: url(../fonts/Roboto-MediumItalic.ttf);
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Robo";
+  src: url(../fonts/Roboto-Bold.ttf);
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Robo";
+  src: url(../fonts/Roboto-BoldItalic.ttf);
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Robo";
+  src: url(../fonts/Roboto-Black.ttf);
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Robo";
+  src: url(../fonts/Roboto-BlackItalic.ttf);
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+.bigNumber {
+  @apply text-6xl mr-3 bg-clip-text bg-gradient-to-b from-secondary to-primary text-transparent font-bold;
+}
+
+.gradButton {
+  @apply text-base-100 btn btn-primary;
+  border: none;
+  font-family: "Michroma";
+  transition: all 0.5s;
+}
+.gradButton:hover {
+  @apply text-base-100 btn-secondary;
+  transition: all 0.5s;
+}
+
+.wideList {
+  @apply flex flex-col gap-5;
+}
+.wideList .companyList .location {
+  width: 200px;
+}
+.wideList .companyList .industry {
+  width: 200px;
+}
+
+.numberCircle {
+  @apply bg-primary text-base-100 absolute top-2 right-5 font-bold;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.listCard {
+  @apply bg-white w-full p-5 rounded-md shadow-sm shadow-accent/15 text-black/60 relative;
+}
+
+form {
+  @apply w-full;
+}
+form input,
+form textarea {
+  @apply w-full p-3 rounded-lg border border-secondary/50 mb-5;
+}
+form input:focus-visible,
+form textarea:focus-visible {
+  @apply outline-primary/75 outline;
+}
+form p {
+  @apply text-secondary px-5 py-2;
+}
+form .formLine {
+  @apply flex gap-5;
+}
+form .formLine label {
+  @apply grow;
+}
+form .formLine label.narrow {
+  @apply grow-0 w-1/4;
+}
+
+body {
+  font-family: "Robo";
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Michroma";
+}
+
+nav.sidePanel {
+  font-family: "Michroma";
+  border-radius: 0 50px 50px 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+nav.sidePanel h1 {
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 2rem 3rem 2rem;
+}
+nav.sidePanel .links {
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+nav.sidePanel .links .linkWrap,
+nav.sidePanel .links .linkGroup {
+  display: flex;
+  gap: 1rem;
+}
+nav.sidePanel .links .linkWrap {
+  padding: 0.5rem 3rem;
+}
+nav.sidePanel .links .linkGroup {
+  flex-direction: column;
+  gap: 0;
+}
+nav.sidePanel .links .subLinkWrap {
+  font-size: 0.75rem;
+  display: flex;
+  margin-left: 3.25rem;
+  padding: 10px 10px 10px 0;
+}
+nav.sidePanel .links .subLinkWrap::before {
+  height: 1.25rem;
+  width: 1rem;
+  margin-top: -10px;
+  content: "";
+  display: block;
+  margin-right: 0.5rem;
+}
+nav.sidePanel .sideBottom {
+  margin: auto auto 1.5rem auto;
+  text-align: center;
+}
+
+.page {
+  margin-left: 300px;
+  padding: 2rem;
+}
+.page h1 {
+  font-size: 3rem;
+}
+.page .spinnerWrap {
+  @apply bg-secondary/40;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  padding-top: 15%;
+  height: 100vh;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.newCompanyPage .logo {
+  height: 200px;
+  width: 200px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.newCompanyPage textarea {
+  min-height: 250px;
+}
+
+.btn {
+  font-family: "Michroma";
+}
+
+.btn-secondary {
+  @apply text-base-100;
+}
+
+.autoComplete {
+  position: relative;
+  z-index: 5;
+}
+.autoComplete input,
+.autoComplete label {
+  position: relative;
+  z-index: 1;
+}
+.autoComplete .box {
+  @apply w-full bg-white absolute shadow-lg shadow-accent/15 flex flex-col gap-2 text-secondary;
+  top: calc(100% - 1.25rem + 3px);
+  z-index: 995;
+}
+.autoComplete .box span {
+  @apply px-5 py-2 hover:bg-base-100;
+  z-index: 999;
+}
+
+.spinner {
+  @apply border-t-primary/50 border-x-primary/50 border-b-transparent;
+  height: 50px;
+  width: 50px;
+  border-radius: 1000px;
+  border-style: solid;
+  border-width: 10px;
+  animation: rotation 2s infinite linear;
+}
+.spinner.small {
+  height: 25px;
+  width: 25px;
+  border-width: 7px;
+}
+.spinner.large {
+  height: 100px;
+  width: 100px;
+  border-width: 20px;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

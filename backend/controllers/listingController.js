@@ -90,8 +90,10 @@ const updateListing = asyncHandler(async (req, res) => {
 // @route POST /api/listings
 // @access Public
 const createListing = asyncHandler(async (req, res) => {
-    let {
+    try {
+        let {
         title,
+        user,
         companyID,
         datePosted,
         skills,
@@ -117,6 +119,7 @@ const createListing = asyncHandler(async (req, res) => {
 
     let listing = await Listing.create({
         title,
+        user,
         companyID,
         datePosted,
         skills,
@@ -140,6 +143,9 @@ const createListing = asyncHandler(async (req, res) => {
         responseDate,
     })
     res.status(201).json(listing)
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 module.exports = {

@@ -9,6 +9,23 @@ const getCompanies = asyncHandler(async (req, res) => {
     res.status(200).json(companies)
 })
 
+// @desc Search companies
+// @route GET /api/companies/search/:text
+// @access Public
+const searchCompanies = asyncHandler(async (req, res) => {
+    try {
+        let regex = new RegExp(req.params.text, 'i')
+        let companies = await Company.find({
+            name: { $regex:  regex},
+        })
+
+        res.status(200).json(companies)
+    } catch (error) {
+        res.status(400)
+        throw new Error(error)
+    }
+})
+
 // @desc Get single company
 // @route GET /api/companies/:id
 // @access Public
@@ -126,4 +143,5 @@ module.exports = {
     getCompany,
     deleteCompany,
     updateCompany,
+    searchCompanies,
 }

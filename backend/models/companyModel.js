@@ -8,11 +8,8 @@ const companySchema = mongoose.Schema({
     location: {
         type: String,
     },
-    address: {
-        type: String,
-    },
     commuteTime: {
-        type: Number,
+        type: String,
     },
     isValid: {
         type: Boolean,
@@ -27,10 +24,6 @@ const companySchema = mongoose.Schema({
     notes: [String],
     size: {
         type: String,
-    },
-    socials: {
-        type: Map,
-        of: String
     },
     industry: {
         type: String,

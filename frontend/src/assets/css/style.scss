@@ -1,0 +1,228 @@
+@use 'fonts';
+
+$primary: #8650d4;
+$secondary: #60b4f0;
+$neutral: #1a0736;
+$white: #fff;
+$base: #ecf7ff;
+$info: #2dc8eb;
+$success: #23c88d;
+$warning: #ff9776;
+$error: #fa4c76;
+$blue: #203ca1;
+$mainFont: 'Robo';
+$accentFont: 'Michroma';
+
+.bigNumber {
+    @apply text-6xl mr-3 bg-clip-text bg-gradient-to-b from-secondary to-primary text-transparent font-bold;
+}
+
+.gradButton {
+    @apply text-base-100 btn btn-primary;
+    border: none;
+    font-family: $accentFont;
+    transition: all 0.5s;
+    &:hover {
+        @apply text-base-100 btn-secondary;
+        transition: all 0.5s;
+    }
+}
+
+.wideList {
+    @apply flex flex-col gap-5;
+    .companyList {
+        .location {
+            width: 200px;
+        }
+        .industry {
+            width: 200px;
+        }
+    }
+}
+
+.numberCircle {
+    @apply bg-primary text-base-100 absolute top-2 right-5 font-bold;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.listCard {
+    @apply bg-white w-full p-5 rounded-md shadow-sm shadow-accent/15 text-black/60 relative;
+}
+
+form {
+    @apply w-full;
+    input,
+    textarea {
+        @apply w-full p-3 rounded-lg border border-secondary/50 mb-5;
+        &:focus-visible {
+            @apply outline-primary/75 outline;
+        }
+    }
+    p {
+        @apply text-secondary px-5 py-2;
+    }
+    .formLine {
+        @apply flex gap-5;
+        label {
+            @apply grow;
+            &.narrow {
+                @apply grow-0 w-1/4;
+            }
+        }
+    }
+}
+
+body {
+    font-family: $mainFont;
+}
+
+h1,
+h2,
+h3 {
+    font-family: $accentFont;
+}
+
+nav.sidePanel {
+    // background-image: linear-gradient($secondary, $primary);
+    font-family: $accentFont;
+    border-radius: 0 50px 50px 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    h1 {
+        font-size: 1.5rem;
+        text-align: center;
+        padding: 2rem 3rem 2rem;
+    }
+    .links {
+        margin: 2rem auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        .linkWrap,
+        .linkGroup {
+            display: flex;
+            gap: 1rem;
+        }
+        .linkWrap {
+            padding: 0.5rem 3rem;
+        }
+        .linkGroup {
+            flex-direction: column;
+            gap: 0;
+        }
+        .subLinkWrap {
+            font-size: 0.75rem;
+            display: flex;
+            margin-left: 3.25rem;
+            padding: 10px 10px 10px 0;
+            &::before {
+                height: 1.25rem;
+                width: 1rem;
+                margin-top: -10px;
+                content: '';
+                display: block;
+                margin-right: 0.5rem;
+            }
+        }
+    }
+    .sideBottom {
+        margin: auto auto 1.5rem auto;
+        text-align: center;
+    }
+}
+
+.page {
+    margin-left: 300px;
+    padding: 2rem;
+
+    h1 {
+        font-size: 3rem;
+    }
+    .spinnerWrap {
+        @apply bg-secondary/40;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        padding-top: 15%;
+        height: 100vh;
+        width: 100%;
+        top: 0;
+        left: 0;
+    }
+}
+
+.newCompanyPage {
+    .logo {
+        height: 200px;
+        width: 200px;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+    textarea {
+        min-height: 250px;
+    }
+}
+
+.btn {
+    font-family: $accentFont;
+}
+
+.btn-secondary {
+    @apply text-base-100;
+}
+.autoComplete {
+    position: relative;
+    z-index: 5;
+    input,
+    label {
+        position: relative;
+        z-index: 1;
+    }
+    .box {
+        @apply w-full bg-white absolute shadow-lg shadow-accent/15 flex flex-col gap-2 text-secondary;
+        top: calc(100% - 1.25rem + 3px);
+        z-index: 995;
+        span {
+            @apply px-5 py-2 hover:bg-base-100;
+            z-index: 999;
+        }
+    }
+}
+
+.spinner {
+    @apply border-t-primary/50 border-x-primary/50 border-b-transparent;
+    height: 50px;
+    width: 50px;
+    border-radius: 1000px;
+    border-style: solid;
+    border-width: 10px;
+    animation: rotation 2s infinite linear;
+
+    &.small {
+        height: 25px;
+        width: 25px;
+        border-width: 7px;
+    }
+
+    &.large {
+        height: 100px;
+        width: 100px;
+        border-width: 20px;
+    }
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}
