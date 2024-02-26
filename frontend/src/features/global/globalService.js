@@ -1,6 +1,4 @@
-// Paragraphs to array
-const GOOGLE_MAPS_KEY = 'AIzaSyDc2fmqGjeliutdfNcSTISDAB-bKvWx2dk'
-const GOOGLE_MAP_ID = '8a17d3fc23589984'
+
 
 function formatDate(timestamp) {
     let d = new Date(timestamp)
