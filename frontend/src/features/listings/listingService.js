@@ -11,7 +11,7 @@ async function createListing(listingData, token) {
     }
 
     let response = await axios.post(API_URL, listingData, config)
-    
+
     return response.data
 }
 
@@ -27,7 +27,7 @@ async function getListings(token) {
     return response.data
 }
 
-// Get listings
+// Get listing
 async function getListing(listingId, token) {
     let config = {
         headers: {
@@ -39,6 +39,18 @@ async function getListing(listingId, token) {
     return response.data
 }
 
+// Search listings
+async function searchListings(field, text, token) {
+    let config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    
+    let response = await axios.get(`${API_URL}/search/${field}/${text}`, config).then()
+    return response.data
+}
+
 // Close listing
 async function closeListing(listingId, token) {
     let config = {
@@ -47,7 +59,11 @@ async function closeListing(listingId, token) {
         },
     }
 
-    let response = await axios.put(API_URL + listingId, {status: 'closed'}, config)
+    let response = await axios.put(
+        API_URL + listingId,
+        { status: 'closed' },
+        config
+    )
     return response.data
 }
 
@@ -56,5 +72,6 @@ let listingService = {
     getListings,
     getListing,
     closeListing,
+    searchListings,
 }
 export default listingService

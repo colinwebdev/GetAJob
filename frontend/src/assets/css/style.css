@@ -128,16 +128,21 @@
   @apply bg-white w-full p-5 rounded-md shadow-sm shadow-accent/15 text-black/60 relative;
 }
 
-form {
-  @apply w-full;
-}
-form input,
-form textarea {
+input,
+textarea {
   @apply w-full p-3 rounded-lg border border-secondary/50 mb-5;
 }
-form input:focus-visible,
-form textarea:focus-visible {
+input:focus-visible,
+textarea:focus-visible {
   @apply outline-primary/75 outline;
+}
+
+textarea {
+  min-height: 250px;
+}
+
+form {
+  @apply w-full;
 }
 form p {
   @apply text-secondary px-5 py-2;
@@ -217,7 +222,30 @@ nav.sidePanel .sideBottom {
   padding: 2rem;
 }
 .page h1 {
+  @apply text-primary;
   font-size: 3rem;
+  padding-left: 2rem;
+}
+.page h2 {
+  @apply text-secondary;
+  font-size: 1.5rem;
+}
+.page a {
+  @apply text-secondary;
+}
+.page a svg {
+  margin-right: 0.5rem;
+  margin-top: 1rem;
+}
+.page .header {
+  margin-bottom: 2rem;
+}
+.page .header h1 {
+  padding: 0;
+}
+.page .header img {
+  height: 100px;
+  width: auth;
 }
 .page .spinnerWrap {
   @apply bg-secondary/40;
@@ -230,15 +258,23 @@ nav.sidePanel .sideBottom {
   top: 0;
   left: 0;
 }
+.page .col {
+  width: calc(50% - 1rem);
+}
+.page.company .map {
+  @apply shadow-lg shadow-accent/15;
+  width: calc(100% + 4rem);
+  margin-left: -2rem;
+  margin-bottom: 2rem;
+  height: 250px;
+  background-color: rgba(13, 69, 104, 0.2);
+}
 
 .newCompanyPage .logo {
   height: 200px;
   width: 200px;
   border-radius: 20px;
   overflow: hidden;
-}
-.newCompanyPage textarea {
-  min-height: 250px;
 }
 
 .btn {
@@ -268,6 +304,33 @@ nav.sidePanel .sideBottom {
   z-index: 999;
 }
 
+.details {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.details .pale,
+.details .dimmed {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.details .pale .icon,
+.details .dimmed .icon {
+  @apply text-primary/65;
+  height: 24px;
+  width: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.details .pale {
+  @apply text-primary/50;
+}
+.details .dimmed {
+  @apply text-neutral/40;
+}
+
 .spinner {
   @apply border-t-primary/50 border-x-primary/50 border-b-transparent;
   height: 50px;
@@ -288,12 +351,41 @@ nav.sidePanel .sideBottom {
   border-width: 20px;
 }
 
+.Toastify .Toastify__toast--error svg {
+  fill: #fa4c76;
+}
+
+/* Always set the map height explicitly to define the size of the div
+ * element that contains the map. */
+gmp-map {
+  height: 100%;
+}
+
+/* Optional: Makes the sample page fill the window. */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 @keyframes rotation {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(359deg);
+  }
+}
+@media (max-width: 1540px) {
+  .formCols {
+    flex-direction: column;
+  }
+  .formCols .col {
+    width: 100%;
+  }
+  .formCols .largeFields textarea {
+    min-height: 200px;
   }
 }
 

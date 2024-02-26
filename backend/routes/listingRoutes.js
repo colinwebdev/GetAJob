@@ -5,13 +5,17 @@ const {
     createListing,
     getListing,
     deleteListing,
-    updateListing
+    updateListing,
+    searchListings,
 } = require('../controllers/listingController')
 
 const { protect } = require('../middleware/authMiddleware')
 
 router.get('/', getListings)
 router.post('/', createListing)
+
+router.route('/search/:field/:text').get(protect, searchListings)
+
 router
     .route('/:id')
     .get(protect, getListing)

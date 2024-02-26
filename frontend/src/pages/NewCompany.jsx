@@ -2,8 +2,13 @@ import { useState, useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import Spinner from '../components/Spinner'
-import { createCompany, getCompany } from '../features/companies/companySlice'
+import FullPageSpinner from '../components/FullPageSpinner'
+
+import {
+    createCompany,
+    getCompany,
+    updateCompany,
+} from '../features/companies/companySlice'
 
 function NewCompany() {
     let { user } = useSelector((state) => state.auth)
@@ -46,10 +51,9 @@ function NewCompany() {
     async function handleChange(e) {
         let text = e.target.value
         let field = e.target.id
-        
+
         switch (field) {
             case 'logoUrl':
-                
                 logoRef.current.innerHTML = `<img src='${text}'>`
                 break
             default:
@@ -63,38 +67,32 @@ function NewCompany() {
 
     async function handleSubmit(e) {
         e.preventDefault()
-
+        
         if (companyId) {
-            dispatch(createCompany(formData))
+            dispatch(updateCompany({ companyId, companyData: formData }))
                 .unwrap()
-                .then(() => {
+                .then((response) => {
                     navigate('/companies')
+                    
                     toast('Company saved', {
-                        authClose: 3000,
+                        autoClose: 3000,
                     })
                 })
+                .catch(toast.error)
         } else {
             dispatch(createCompany(formData))
                 .unwrap()
                 .then(() => {
                     navigate('/companies')
-                    toast('Company saved', {
-                        authClose: 3000,
+                    toast('Company created', {
+                        autoClose: 3000,
                     })
                 })
+                .catch(toast.error)
         }
     }
 
-    if (isLoading)
-        return (
-            <div className='page'>
-                <div className='spinnerWrap'>
-                    <div className='spinnerInner'>
-                        <Spinner />
-                    </div>
-                </div>
-            </div>
-        )
+    if (isLoading) return <FullPageSpinner />
 
     return (
         <div className='page newCompanyPage'>

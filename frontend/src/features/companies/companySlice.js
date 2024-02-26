@@ -53,16 +53,15 @@ export const getCompanies = createAsyncThunk(
 //  search Companies
 export const searchCompanies = createAsyncThunk(
     'companies/search',
-    async (text, thunkAPI) => {
+    async ({field, text}, thunkAPI) => {
         try {
             if (text) {
                 let token = thunkAPI.getState().auth.user.token
-                return await companyService.searchCompanies(text, token)
+                return await companyService.searchCompanies(field, text, token)
             } else {
                 return null
             }
         } catch (error) {
-            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -90,7 +89,7 @@ export const getCompany = createAsyncThunk(
                     error.response.data.message) ||
                 error.message ||
                 error.toString()
-            console.log(error)
+            
             return thunkAPI.rejectWithValue(message)
         }
     }
@@ -99,10 +98,10 @@ export const getCompany = createAsyncThunk(
 // Update company
 export const updateCompany = createAsyncThunk(
     'companies/update',
-    async (companyId, thunkAPI) => {
+    async ({companyId, companyData}, thunkAPI) => {
         try {
             let token = thunkAPI.getState().auth.user.token
-            return await companyService.updateCompany(companyId, token)
+            return await companyService.updateCompany(companyId, companyData, token)
         } catch (error) {
             let message =
                 (error.response &&
@@ -110,7 +109,7 @@ export const updateCompany = createAsyncThunk(
                     error.response.data.message) ||
                 error.message ||
                 error.toString()
-
+                    
             return thunkAPI.rejectWithValue(message)
         }
     }

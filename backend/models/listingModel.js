@@ -9,12 +9,12 @@ const listingSchema = mongoose.Schema(
         companyID: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
-            ref: 'Companies',
+            ref: 'Company',
         },
         user: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
-            ref: 'Users'
+            ref: 'Users',
         },
         datePosted: {
             type: Date,
@@ -44,9 +44,15 @@ const listingSchema = mongoose.Schema(
         education: {
             type: String,
         },
-        description: [String],
-        benefits: [String],
-        qualifications: [String],
+        description: {
+            type: String,
+        },
+        benefits: {
+            type: String,
+        },
+        qualifications: {
+            type: String,
+        },
         duration: {
             type: String,
         },
@@ -70,15 +76,19 @@ const listingSchema = mongoose.Schema(
         reasonNotApplied: {
             type: String,
         },
-        response: [String],
-        notes: [String],
+        response: {
+            type: String,
+        },
+        notes: {
+            type: String,
+        },
         responseDate: {
             type: Date,
         },
         sources: {
-        type: Map,
-        of: String
-    },
+            type: Map,
+            of: String,
+        },
     },
     {
         timestamps: true,

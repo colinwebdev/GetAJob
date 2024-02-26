@@ -11,6 +11,8 @@ import Register from './pages/Register'
 import Login from './pages/Login'
 import NewCompany from './pages/NewCompany'
 import PrivateRoute from './components/PrivateRoute'
+import Company from './pages/Company'
+
 
 function App() {
     return (
@@ -30,6 +32,9 @@ function App() {
                     </Route>
                     <Route path='/companies' element={<PrivateRoute />}>
                         <Route path='/companies' element={<Companies />} />
+                    </Route>
+                    <Route path='/company/:companyId' element={<Company />}>
+                        <Route path='/company/:companyId' element={<Company />} />
                     </Route>
                     <Route path='/company/edit/:companyId' element={<PrivateRoute />}>
                         <Route path='/company/edit/:companyId' element={<NewCompany />} />

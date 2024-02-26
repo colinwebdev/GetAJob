@@ -1,29 +1,22 @@
 const asyncHandler = require('express-async-handler')
 const Company = require('../models/companyModel')
+const Listing = require('../models/listingModel')
 
 // @desc Get all companies
 // @route GET /api/companies
 // @access Public
 const getCompanies = asyncHandler(async (req, res) => {
-    let companies = await Company.find()
-    res.status(200).json(companies)
-})
-
-// @desc Search companies
-// @route GET /api/companies/search/:text
-// @access Public
-const searchCompanies = asyncHandler(async (req, res) => {
-    try {
-        let regex = new RegExp(req.params.text, 'i')
-        let companies = await Company.find({
-            name: { $regex:  regex},
-        })
-
-        res.status(200).json(companies)
-    } catch (error) {
-        res.status(400)
-        throw new Error(error)
+    let companyData = await Company.find()
+    let companies = []
+    for (let company of companyData) {
+        let listings = await Listing.find({ companyID: company._doc._id })
+        let newCompany = {
+            ...company._doc,
+            listings,
+        }
+        companies.push(newCompany)
     }
+    res.status(200).json(companies)
 })
 
 // @desc Get single company
@@ -31,12 +24,22 @@ const searchCompanies = asyncHandler(async (req, res) => {
 // @access Public
 const getCompany = asyncHandler(async (req, res) => {
     try {
-        let company = await Company.findById(req.params.id)
-        if (!company) {
+        let companyData = await Company.find({_id:req.params.id})
+        let companies = []
+        for (let company of companyData) {
+            let listings = await Listing.find({ companyID: company._doc._id })
+            let newCompany = {
+                ...company._doc,
+                listings,
+            }
+            companies.push(newCompany)
+        }
+
+        if (!companyData) {
             res.status(404)
             throw new Error('Company not found')
         }
-        res.status(200).json(company)
+        res.status(200).json(companies[0])
     } catch (error) {
         if (error.name === 'CastError') {
             res.status(404)
@@ -45,6 +48,22 @@ const getCompany = asyncHandler(async (req, res) => {
             res.status(400)
             throw new Error('Something went wrong')
         }
+    }
+})
+
+// @desc Search companies
+// @route GET /api/companies/search/:field/:text
+// @access Public
+const searchCompanies = asyncHandler(async (req, res) => {
+    try {
+        let companies = await Company.find({
+            [req.params.field]: { $regex: new RegExp(req.params.text, 'i') },
+        })
+
+        res.status(200).json(companies)
+    } catch (error) {
+        res.status(400)
+        throw new Error(error)
     }
 })
 
@@ -77,22 +96,24 @@ const deleteCompany = asyncHandler(async (req, res) => {
 // @route PUT /api/companies/:id
 // @access Public
 const updateCompany = asyncHandler(async (req, res) => {
+    console.log('in Controller')
     try {
         let company = await Company.findById(req.params.id)
         if (!company) {
             res.status(404)
             throw new Error('Company not found')
         }
-        console.log('old company', company)
+
         let updatedListing = await Company.findByIdAndUpdate(
             req.params.id,
             req.body,
             { new: true }
         )
-        console.log('newListing', updatedListing)
+        
 
         res.status(200).json(updatedListing)
     } catch (error) {
+        
         if (error.name === 'CastError') {
             res.status(404)
             throw new Error('Company ID not found')

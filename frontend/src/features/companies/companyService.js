@@ -28,20 +28,20 @@ async function getCompanies(token) {
 
 
 // Search companies
-async function searchCompanies(text, token) {
+async function searchCompanies(field, text, token) {
     let config = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     }
 
-    let response = await axios.get(`${API_URL}/search/${text}` , config)
+    let response = await axios.get(`${API_URL}/search/${field}/${text}` , config)
     
     return response.data
 }
 
 
-// Get companies
+// Get company
 async function getCompany(companyId, token) {
     let config = {
         headers: {
@@ -56,12 +56,14 @@ async function getCompany(companyId, token) {
 
 // Update company
 async function updateCompany(companyId, companyData, token) {
+    
     let config = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     }
     let response = await axios.put(API_URL + companyId, companyData, config)
+    
     return response.data
 }
 

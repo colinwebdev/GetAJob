@@ -3,6 +3,7 @@ import listingService from './listingService'
 
 const initialState = {
     listings: [],
+    listingsCount: 0,
     listing: {},
     isError: false,
     isSuccess: false,
@@ -17,6 +18,26 @@ export const createListing = createAsyncThunk(
         try {
             let token = thunkAPI.getState().auth.user.token
             return await listingService.createListing(listingData, token)
+        } catch (error) {
+            let message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
+
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
+//  Update listing
+export const updateListing = createAsyncThunk(
+    'listings/update',
+    async ({listingData, listingId}, thunkAPI) => {
+        try {
+            let token = thunkAPI.getState().auth.user.token
+            return await listingService.updateListing(listingData, token)
         } catch (error) {
             let message =
                 (error.response &&
@@ -50,6 +71,31 @@ export const getListings = createAsyncThunk(
     }
 )
 
+//  Search Listings
+export const searchListings = createAsyncThunk(
+    'listings/search',
+    async ({field, text}, thunkAPI) => {
+        try {
+            if (text) {
+                let token = thunkAPI.getState().auth.user.token
+                return await listingService.searchListings(field, text, token)
+            } else {
+                return null
+            }
+            
+        } catch (error) {
+            let message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
+            
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
 //  Get Listing
 export const getListing = createAsyncThunk(
     'listings/get',
@@ -72,7 +118,7 @@ export const getListing = createAsyncThunk(
 
 // Close Listing
 export const closeListing = createAsyncThunk(
-    'tickets/close',
+    'listings/close',
     async (listingId, thunkAPI) => {
         try {
             let token = thunkAPI.getState().auth.user.token
@@ -116,7 +162,7 @@ export const listingSlice = createSlice({
             .addCase(getListings.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.tickets = action.payload
+                state.listings = action.payload
             })
             .addCase(getListings.rejected, (state, action) => {
                 state.isLoading = false
@@ -129,9 +175,23 @@ export const listingSlice = createSlice({
             .addCase(getListing.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.ticket = action.payload
+                state.listing = action.payload
             })
             .addCase(getListing.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(searchListings.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(searchListings.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.listings = action.payload
+                state.listingsCount = action.payload.length
+            })
+            .addCase(searchListings.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload

@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Spinner from '../components/Spinner'
-import { createListing } from '../features/listings/listingSlice'
+import { createListing, getListing, updateListing } from '../features/listings/listingSlice'
 import {
     payBasisTypes,
     jobTypes,
@@ -15,12 +15,14 @@ import {
 import {
     createCompany,
     searchCompanies,
-    clearCompanies
+    clearCompanies,
 } from '../features/companies/companySlice'
 
 function NewListing() {
     const { user } = useSelector((state) => state.auth)
     const { companies } = useSelector((state) => state.companies)
+
+    let { listingId } = useParams()
 
     let [showCompanies, setShowCompanies] = useState(false)
     let [showSources, setShowSources] = useState(false)
@@ -32,6 +34,7 @@ function NewListing() {
     let [isLoading, setIsLoading] = useState(false)
     let [isAddingCompany, setIsAddingCompany] = useState(false)
     let [nextPage, setNextPage] = useState(null)
+    let [sourceText, setSourceText] = useState('')
 
     let [formData, setFormData] = useState({
         title: '',
@@ -54,7 +57,7 @@ function NewListing() {
         directLink: '',
         closingDate: '',
         notes: [],
-        sources: '',
+        sources: [],
     })
     let {
         title,
@@ -75,24 +78,29 @@ function NewListing() {
         duration,
         directLink,
         closingDate,
-        notes,
         sources,
     } = formData
 
-    let smallSpinner = <Spinner scale={'small'} />
+    // let smallSpinner = <Spinner scale={'small'} />
 
     let navigate = useNavigate()
     let dispatch = useDispatch()
 
     let companyRef = useRef(null)
 
-    let companyContent = showCompanies && companies ? mapData(companies, 'company') : ''
-    let sourceContent = showSources && sourceSites ? mapData(sourceSites, 'source') : ''
-    let basisContent = showBasis && payBasisTypes ? mapData(payBasisTypes, 'basis') : ''
+    let companyContent =
+        showCompanies && companies ? mapData(companies, 'company') : ''
+    let sourceContent =
+        showSources && sourceSites ? mapData(sourceSites, 'source') : ''
+    let basisContent =
+        showBasis && payBasisTypes ? mapData(payBasisTypes, 'basis') : ''
     let typesContent = showTypes && jobTypes ? mapData(jobTypes, 'type') : ''
-    let remoteContent = showRemote && remoteStatuses ? mapData(remoteStatuses, 'remote') : ''
-    let senContent = showSen && seniorityTypes ? mapData(seniorityTypes, 'sen') : ''
-    let eduContent = showEdu && educationLevels ? mapData(educationLevels, 'edu') : ''
+    let remoteContent =
+        showRemote && remoteStatuses ? mapData(remoteStatuses, 'remote') : ''
+    let senContent =
+        showSen && seniorityTypes ? mapData(seniorityTypes, 'sen') : ''
+    let eduContent =
+        showEdu && educationLevels ? mapData(educationLevels, 'edu') : ''
 
     function mapData(data, type) {
         return (
@@ -110,6 +118,18 @@ function NewListing() {
             </>
         )
     }
+
+    useEffect(() => {
+        if (listingId) {
+            setIsLoading(true)
+            dispatch(getListing(listingId)).then((response) => {
+                setFormData({ ...response.payload })
+                setIsLoading(false)
+            })
+            
+        }
+    }, [dispatch, listingId])
+
     async function addValues(e) {
         let type = e.target.dataset.type
         // let dataId = e.target.dataset.id
@@ -118,12 +138,15 @@ function NewListing() {
         switch (type) {
             case 'company':
                 companyRef.current.value = e.target.innerText
-                setFormData((prevState)=>({
-                  ...prevState,
-                  companyID: e.target.dataset.id
+                setFormData((prevState) => ({
+                    ...prevState,
+                    companyID: e.target.dataset.id,
                 }))
                 break
             case 'source':
+                field = 'sources'
+                setSourceText(text)
+                text = [...sources, text]
                 break
             case 'basis':
                 field = 'payBasis'
@@ -213,7 +236,7 @@ function NewListing() {
         let text = e.target.value
         if (e.target.id === 'companyName') {
             setShowCompanies(true)
-            dispatch(searchCompanies(text))
+            dispatch(searchCompanies({ field: 'name', text }))
         } else {
             setFormData((prevState) => ({
                 ...prevState,
@@ -223,15 +246,32 @@ function NewListing() {
     }
 
     async function submitListing() {
-        dispatch(createListing(formData))
+        if (listingId) {
+            dispatch(updateListing(formData))
             .unwrap()
             .then((response) => {
-                !nextPage ? navigate(`/listing/${response._id}`) : navigate(nextPage)
+                !nextPage
+                    ? navigate(`/listing/${response._id}`)
+                    : navigate(nextPage)
                 toast('Listing created!', {
                     autoClose: 2000,
                 })
             })
             .catch(toast.error)
+        } else {
+            dispatch(createListing(formData))
+            .unwrap()
+            .then((response) => {
+                !nextPage
+                    ? navigate(`/listing/${response._id}`)
+                    : navigate(nextPage)
+                toast('Listing created!', {
+                    autoClose: 2000,
+                })
+            })
+            .catch(toast.error)
+        }
+        
     }
 
     async function addCompany() {
@@ -254,14 +294,28 @@ function NewListing() {
 
     async function handleSubmit(e) {
         e.preventDefault()
-        setIsLoading(true)
-        if (companyID === 0) {
-            addCompany()
+        if (title === '') {
+            toast.error('Please enter a title')
+            companyRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+            })
+        } else if (companyRef.current.value === '') {
+            toast.error('Please add a company')
+            companyRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+            })
+        } else {
+            setIsLoading(true)
+            if (companyID === 0) {
+                addCompany()
+            }
+            if (!isAddingCompany) {
+                submitListing()
+            }
+            setIsLoading(false)
         }
-        if (!isAddingCompany) {
-            submitListing()
-        }
-        setIsLoading(false)
     }
 
     if (isLoading)
@@ -279,10 +333,10 @@ function NewListing() {
         <div className='page newListingPage'>
             <h1 className='text-primary pl-8'>New Listing</h1>
             <form
-                className='flex gap-8 mb-8 mt-5 flex-wrap'
+                className='flex gap-8 mb-8 mt-5 flex-wrap formCols'
                 onSubmit={handleSubmit}
             >
-                <div className='col grow'>
+                <div className='col smallFields grow'>
                     <label htmlFor='title'>
                         <p>Title</p>
                         <input
@@ -364,7 +418,7 @@ function NewListing() {
                                     onFocus={handleFocus}
                                     onBlur={removeFocus}
                                     autoComplete='off'
-                                    value={sources}
+                                    value={sourceText}
                                 />
                             </label>
                             <div className='box'>{sourceContent}</div>
@@ -405,7 +459,7 @@ function NewListing() {
                             <div className='box'>{remoteContent}</div>
                         </div>
                         <label htmlFor='closingDate'>
-                            <p>Remote Status</p>
+                            <p>Closing Date</p>
                             <input
                                 type='date'
                                 id='closingDate'
@@ -488,71 +542,77 @@ function NewListing() {
                             </label>
                             <div className='box'>{eduContent}</div>
                         </div>
-                        <label htmlFor='skills' className='grow flex flex-col'>
-                            <p>Skills</p>
-                            <textarea
-                                className='grow'
-                                id='skills'
-                                name='skills'
+                    </div>
+                    {/* end form line */}
+                    <label htmlFor='skills' className='grow flex flex-col'>
+                        <p>Skills</p>
+                        <textarea
+                            className='grow'
+                            id='skills'
+                            name='skills'
+                            onChange={handleChange}
+                            autoComplete='off'
+                            value={skills}
+                        ></textarea>
+                    </label>
+                    <div className='formLine'>
+                        <label htmlFor='directLink'>
+                            <p>Direct Link</p>
+                            <input
+                                type='text'
+                                id='directLink'
+                                name='directLink'
                                 onChange={handleChange}
                                 autoComplete='off'
-                                value={skills}
-                            ></textarea>
+                                value={directLink}
+                            />
+                        </label>
+                        <label htmlFor='sourceLink'>
+                            <p>Source Link</p>
+                            <input
+                                type='text'
+                                id='sourceLink'
+                                name='sourceLink'
+                                onChange={handleChange}
+                                autoComplete='off'
+                            />
                         </label>
                     </div>
                     {/* end form line */}
-                    <label htmlFor='directLink'>
-                        <p>Direct Link</p>
-                        <input
-                            type='text'
-                            id='directLink'
-                            name='directLink'
-                            onChange={handleChange}
-                            autoComplete='off'
-                            value={directLink}
-                        />
-                    </label>
-                    <label htmlFor='sourceLink'>
-                        <p>Source Link</p>
-                        <input
-                            type='text'
-                            id='sourceLink'
-                            name='sourceLink'
-                            onChange={handleChange}
-                            autoComplete='off'
-                        />
-                    </label>
                 </div>
                 {/* end col */}
-                <div className='col w-1/2 flex flex-col'>
-                    <label htmlFor='desc' className='grow flex flex-col'>
+                <div className='col largeFields flex flex-col'>
+                    <label htmlFor='description' className='grow flex flex-col'>
                         <p>Description</p>
                         <textarea
                             className='grow'
-                            id='desc'
-                            name='desc'
+                            id='description'
+                            name='description'
                             onChange={handleChange}
                             autoComplete='off'
                             value={description}
                         ></textarea>
                     </label>
-                    <label htmlFor='qual' className='grow flex flex-col'>
+                    <label
+                        htmlFor='qualification'
+                        className='grow flex flex-col'
+                    >
                         <p>Qualifications</p>
                         <textarea
                             className='grow'
-                            id='qual'
-                            name='qual'
+                            id='qualification'
+                            name='qualification'
                             onChange={handleChange}
                             autoComplete='off'
                             value={qualifications}
                         ></textarea>
                     </label>
-                    <label htmlFor='bene' className='grow flex flex-col'>
+                    <label htmlFor='benefits' className='grow flex flex-col'>
                         <p>Benefits</p>
                         <textarea
                             className='grow'
-                            id='bene'
-                            name='bene'
+                            id='benefits'
+                            name='benefits'
                             onChange={handleChange}
                             autoComplete='off'
                             value={benefits}

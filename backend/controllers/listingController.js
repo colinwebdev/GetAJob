@@ -5,8 +5,44 @@ const Listing = require('../models/listingModel')
 // @route GET /api/listings
 // @access Public
 const getListings = asyncHandler(async (req, res) => {
-    let listings = await Listing.find()
+    let listings = await Listing.find().populate('companyID')
     res.status(200).json(listings)
+})
+
+// @desc Get single listing
+// @route GET /api/listings/search/:field/:text
+// @access Public
+const searchListings = asyncHandler(async (req, res) => {
+    
+    let field = req.params.field
+    let text = ''
+
+    switch (field) {
+        case 'companyID':
+        case 'user':
+            text = req.params.text
+            break
+        default:
+            text = {$regex: new RegExp(req.params.text, 'i')}
+        break
+    }
+
+    try {
+        let listings = await Listing.find({
+            [field]: text,
+        }).populate()
+
+        res.status(200).json(listings)
+    } catch (error) {
+        console.log(error)
+        if (error.name === 'CastError') {
+            res.status(404)
+            throw new Error('Listing ID not found')
+        } else {
+            res.status(400)
+            throw new Error('Something went wrong')
+        }
+    }
 })
 
 // @desc Get single listing
@@ -92,57 +128,57 @@ const updateListing = asyncHandler(async (req, res) => {
 const createListing = asyncHandler(async (req, res) => {
     try {
         let {
-        title,
-        user,
-        companyID,
-        datePosted,
-        skills,
-        pay,
-        payBasis,
-        type,
-        scheduleDays,
-        scheduleTime,
-        RemoteStatus,
-        education,
-        descriptions,
-        duration,
-        directLink,
-        isApplied,
-        isClosed,
-        closingDate,
-        dateApplied,
-        reasonNotApplied,
-        response,
-        notes,
-        responseDate,
-    } = req.body
+            title,
+            user,
+            companyID,
+            datePosted,
+            skills,
+            pay,
+            payBasis,
+            type,
+            scheduleDays,
+            scheduleTime,
+            RemoteStatus,
+            education,
+            descriptions,
+            duration,
+            directLink,
+            isApplied,
+            isClosed,
+            closingDate,
+            dateApplied,
+            reasonNotApplied,
+            response,
+            notes,
+            responseDate,
+        } = req.body
 
-    let listing = await Listing.create({
-        title,
-        user,
-        companyID,
-        datePosted,
-        skills,
-        pay,
-        payBasis,
-        type,
-        scheduleDays,
-        scheduleTime,
-        RemoteStatus,
-        education,
-        descriptions,
-        duration,
-        directLink,
-        isApplied,
-        isClosed,
-        closingDate,
-        dateApplied,
-        reasonNotApplied,
-        response,
-        notes,
-        responseDate,
-    })
-    res.status(201).json(listing)
+        let listing = await Listing.create({
+            title,
+            user,
+            companyID,
+            datePosted,
+            skills,
+            pay,
+            payBasis,
+            type,
+            scheduleDays,
+            scheduleTime,
+            RemoteStatus,
+            education,
+            descriptions,
+            duration,
+            directLink,
+            isApplied,
+            isClosed,
+            closingDate,
+            dateApplied,
+            reasonNotApplied,
+            response,
+            notes,
+            responseDate,
+        })
+        res.status(201).json(listing)
     } catch (error) {
         console.log(error)
     }
@@ -154,4 +190,5 @@ module.exports = {
     getListing,
     deleteListing,
     updateListing,
+    searchListings
 }

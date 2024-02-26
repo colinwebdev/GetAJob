@@ -6,26 +6,19 @@ const {
     getCompany,
     deleteCompany,
     updateCompany,
-    searchCompanies
+    searchCompanies,
 } = require('../controllers/companyController')
 
 const { protect } = require('../middleware/authMiddleware')
 
-router
-    .route('/')
-    .get(protect, getCompanies)
-    .post(protect, createCompany)
+router.route('/').get(protect, getCompanies).post(protect, createCompany)
 
-
-router
-    .route('/search/:text')
-    .get(protect, searchCompanies)
+router.route('/search/:field/:text').get(protect, searchCompanies)
 
 router
     .route('/:id')
     .get(protect, getCompany)
     .delete(protect, deleteCompany)
     .put(protect, updateCompany)
-
 
 module.exports = router

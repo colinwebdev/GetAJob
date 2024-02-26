@@ -21,7 +21,10 @@ const companySchema = mongoose.Schema({
     logoUrl: {
         type: String,
     },
-    notes: [String],
+    notes: {
+        type: Map,
+        of: String
+    },
     size: {
         type: String,
     },

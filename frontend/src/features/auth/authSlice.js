@@ -24,7 +24,7 @@ export const register = createAsyncThunk(
                     error.response.data.message) ||
                 error.message ||
                 error.toString()
-            console.log(error)
+            
             return thunkAPI.rejectWithValue(message)
         }
     }

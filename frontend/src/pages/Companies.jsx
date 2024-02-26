@@ -1,28 +1,43 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getCompanies } from '../features/companies/companySlice'
 import { Link } from 'react-router-dom'
-import Spinner from '../components/Spinner'
+import FullPageSpinner from '../components/FullPageSpinner'
+import CompanyListItem from '../components/CompanyListItem'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAdd } from '@fortawesome/free-solid-svg-icons'
 
 function Companies() {
     let { companies } = useSelector((state) => state.companies)
-
+    let [isLoading, setIsLoading] = useState(true)
     let dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(getCompanies())
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 500)
     }, [dispatch])
+    if (isLoading) return <FullPageSpinner />
 
-    return <div className='page'>
-      {companies.map((company, i)=>(
-        <div> 
-          <Link to={`/company/edit/${company._id}`} >
-            {company.name}
-          </Link>
+    return (
+        <div className='page companies'>
+            <h1>Companies</h1>
+            <div className='companiesDetailList wideList mt-5 mb-8'>
+                {companies.length === 0 && (
+                    <div className='flex p-5 justify-center items-center flex-col'>
+                        <p>No companies added, yet</p>
+                        <p className='addItem'>
+                            <Link to='/newCompany'><FontAwesomeIcon icon={faAdd} /> Add one</Link>
+                        </p>
+                    </div>
+                )}
+                {companies.map((company) => (
+                    <CompanyListItem key={company._id} company={company} />
+                ))}
+            </div>
         </div>
-      ))}
-    
-    </div>
+    )
 }
 
 export default Companies
