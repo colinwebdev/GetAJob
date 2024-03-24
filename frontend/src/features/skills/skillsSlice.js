@@ -1,22 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import companyService from './companyService'
+import skillService from './skillsService'
 
 const initialState = {
-    companies: [],
-    company: {},
+    skillsList: [],
+    skill: {},
     isError: false,
     isSuccess: false,
     isLoading: false,
     message: '',
 }
-
-//  Create new company
-export const createCompany = createAsyncThunk(
-    'companies/create',
-    async (companyData, thunkAPI) => {
+//  Create new skill
+export const createSkill = createAsyncThunk(
+    'skills/create',
+    async (skillData, thunkAPI) => {
         try {
             let token = thunkAPI.getState().auth.user.token
-            return await companyService.createCompany(companyData, token)
+            return await skillService.createSkill(skillData, token)
         } catch (error) {
             let message =
                 (error.response &&
@@ -30,13 +29,13 @@ export const createCompany = createAsyncThunk(
     }
 )
 
-//  Get Companies
-export const getCompanies = createAsyncThunk(
-    'companies/getAll',
+//  Get Skills
+export const getSkills = createAsyncThunk(
+    'skills/getAll',
     async (_, thunkAPI) => {
         try {
             let token = thunkAPI.getState().auth.user.token
-            return await companyService.getCompanies(token)
+            return await skillService.getSkills(token)
         } catch (error) {
             let message =
                 (error.response &&
@@ -50,14 +49,34 @@ export const getCompanies = createAsyncThunk(
     }
 )
 
-//  search Companies
-export const searchCompanies = createAsyncThunk(
-    'companies/search',
+//  Delete Skill
+export const deleteSkill = createAsyncThunk(
+    'skills/delete',
+    async (skillId, thunkAPI) => {
+        try {
+            let token = thunkAPI.getState().auth.user.token
+            return await skillService.deleteSkill(skillId, token)
+        } catch (error) {
+            let message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
+
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
+//  search Skills
+export const searchSkills = createAsyncThunk(
+    'skills/search',
     async ({field, text}, thunkAPI) => {
         try {
             if (text) {
                 let token = thunkAPI.getState().auth.user.token
-                return await companyService.searchCompanies(field, text, token)
+                return await skillService.searchSkills(field, text, token)
             } else {
                 return null
             }
@@ -75,13 +94,13 @@ export const searchCompanies = createAsyncThunk(
 )
 
 
-//  Get Company
-export const getCompany = createAsyncThunk(
-    'companies/get',
-    async (companyId, thunkAPI) => {
+//  Get Skill
+export const getSkill = createAsyncThunk(
+    'skills/get',
+    async (skillId, thunkAPI) => {
         try {
             let token = thunkAPI.getState().auth.user.token
-            return await companyService.getCompany(companyId, token)
+            return await skillService.getSkill(skillId, token)
         } catch (error) {
             let message =
                 (error.response &&
@@ -95,13 +114,13 @@ export const getCompany = createAsyncThunk(
     }
 )
 
-// Update company
-export const updateCompany = createAsyncThunk(
-    'companies/update',
-    async ({companyId, companyData}, thunkAPI) => {
+// Update skill
+export const updateSkill = createAsyncThunk(
+    'skills/update',
+    async ({skillId, skillData}, thunkAPI) => {
         try {
             let token = thunkAPI.getState().auth.user.token
-            return await companyService.updateCompany(companyId, companyData, token)
+            return await skillService.updateSkill(skillId, skillData, token)
         } catch (error) {
             let message =
                 (error.response &&
@@ -115,98 +134,66 @@ export const updateCompany = createAsyncThunk(
     }
 )
 
-//  Delete Company
-export const deleteCompany = createAsyncThunk(
-    'companies/delete',
-    async (companyId, thunkAPI) => {
-        try {
-            let token = thunkAPI.getState().auth.user.token
-            return await companyService.deleteCompany(companyId, token)
-        } catch (error) {
-            let message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString()
-            
-            return thunkAPI.rejectWithValue(message)
-        }
-    }
-)
 
-export const companySlice = createSlice({
-    name: 'company',
+export const skillSlice = createSlice({
+    name: 'skill',
     initialState,
     reducers: {
         reset: (state) => initialState,
-        clearCompanies: (state) => ({
+        clearSkills: (state) => ({
             ...state,
-            companies: []
+            skillsList: []
         })
     },
     extraReducers: (builder) => {
         builder
-            .addCase(createCompany.pending, (state) => {
+            .addCase(createSkill.pending, (state) => {
                 state.isLoading = true
             })
-            .addCase(createCompany.fulfilled, (state) => {
+            .addCase(createSkill.fulfilled, (state) => {
                 state.isLoading = false
                 state.isSuccess = true
             })
-            .addCase(createCompany.rejected, (state, action) => {
+            .addCase(createSkill.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload
             })
-            .addCase(getCompanies.pending, (state) => {
+            .addCase(getSkills.pending, (state) => {
                 state.isLoading = true
             })
-            .addCase(getCompanies.fulfilled, (state, action) => {
+            .addCase(getSkills.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.companies = action.payload
+                state.skillsList = action.payload
             })
-            .addCase(getCompanies.rejected, (state, action) => {
+            .addCase(getSkills.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload
             })
-            .addCase(getCompany.pending, (state) => {
+            .addCase(getSkill.pending, (state) => {
                 state.isLoading = true
             })
-            .addCase(getCompany.fulfilled, (state, action) => {
+            .addCase(getSkill.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.company = action.payload
+                state.skill = action.payload
             })
-            .addCase(getCompany.rejected, (state, action) => {
+            .addCase(getSkill.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload
             })
-            .addCase(deleteCompany.pending, (state) => {
+            .addCase(searchSkills.pending, (state) => {
                 state.isLoading = true
             })
-            .addCase(deleteCompany.fulfilled, (state, action) => {
+            .addCase(searchSkills.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.company = []
+                state.skillsList = action.payload
             })
-            .addCase(deleteCompany.rejected, (state, action) => {
-                state.isLoading = false
-                state.isError = true
-                state.message = action.payload
-            })
-            .addCase(searchCompanies.pending, (state) => {
-                state.isLoading = true
-            })
-            .addCase(searchCompanies.fulfilled, (state, action) => {
-                state.isLoading = false
-                state.isSuccess = true
-                state.companies = action.payload
-            })
-            .addCase(searchCompanies.rejected, (state, action) => {
+            .addCase(searchSkills.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload
@@ -214,5 +201,5 @@ export const companySlice = createSlice({
     },
 })
 
-export let { reset, clearCompanies } = companySlice.actions
-export default companySlice.reducer
+export let { reset } = skillSlice.actions
+export default skillSlice.reducer

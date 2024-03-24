@@ -24,7 +24,7 @@ const listingSchema = mongoose.Schema(
             type: String,
         },
         pay: {
-            type: Number,
+            type: String,
         },
         payBasis: {
             type: String,
@@ -32,10 +32,7 @@ const listingSchema = mongoose.Schema(
         type: {
             type: String,
         },
-        scheduleDays: {
-            type: String,
-        },
-        scheduleTime: {
+        schedule: {
             type: String,
         },
         remoteStatus: {
@@ -80,15 +77,22 @@ const listingSchema = mongoose.Schema(
             type: String,
         },
         notes: {
-            type: String,
+            type: Map,
+            of: String,
         },
         responseDate: {
             type: Date,
         },
-        sources: {
-            type: Map,
-            of: String,
+        source: {
+            type: String
         },
+        sourceLink: {
+            type: String
+        },
+        isArchived: {
+            type: Boolean,
+            default: false
+        }
     },
     {
         timestamps: true,

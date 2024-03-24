@@ -1,8 +1,8 @@
 // Paragraphs to array
-const GOOGLE_MAPS_KEY = 'AIzaSyDc2fmqGjeliutdfNcSTISDAB-bKvWx2dk'
-const GOOGLE_MAP_ID = '8a17d3fc23589984'
-
-function formatDate(timestamp) {
+function formatDate(timestamp, returnTime = true) {
+    if (!timestamp) return 
+    // timestamp = parseInt(timestamp)
+    // timestamp = +timestamp
     let d = new Date(timestamp)
     let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
     var months = [
@@ -21,11 +21,24 @@ function formatDate(timestamp) {
     ]
     let getHours = d.getHours()
     let getMinutes = d.getMinutes()
-    let hours = getHours > 12 ? hours - 12 : getHours === 0 ? 12 : getHours
+    let hours = getHours > 12 ? getHours - 12 : getHours === 0 ? 12 : getHours
     let minutes = getMinutes < 10 ? '0'+getMinutes : getMinutes
     let amPm = getHours < 12 ? 'AM' : 'PM'
     let time = `${hours}:${minutes} ${amPm}`
-    return days[d.getDay()] + ' ' + months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear() + ' at ' + time
+    let fullDate = days[d.getDay()] + ' ' + months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear()
+    let fullTime = `at ${hours}:${minutes} ${amPm}`
+    if (returnTime) {
+        return `${fullDate} ${fullTime}`
+    }
+    return fullDate 
+}
+
+function daysSince(date) {
+    let start = new Date(date)
+    let end = Date.now()
+    return Math.round((end - start) / (1000 * 3600 * 24))
+    
+
 }
 
 function paraToArray(data) {
@@ -57,9 +70,8 @@ let globalService = {
     paraToArray,
     arrayToPara,
     arrayToString,
-    GOOGLE_MAPS_KEY,
-    GOOGLE_MAP_ID,
-    formatDate
+    formatDate,
+    daysSince
 }
 
 export default globalService

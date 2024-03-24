@@ -7,6 +7,9 @@ const {
     deleteListing,
     updateListing,
     searchListings,
+    getDashboard,
+    filterListings,
+    skillListings
 } = require('../controllers/listingController')
 
 const { protect } = require('../middleware/authMiddleware')
@@ -15,6 +18,12 @@ router.get('/', getListings)
 router.post('/', createListing)
 
 router.route('/search/:field/:text').get(protect, searchListings)
+
+router.route('/filter/:type').get(protect, filterListings)
+
+router.route('/withSkill/:skillId').get(protect, skillListings)
+
+router.route('/dash').get(protect, getDashboard)
 
 router
     .route('/:id')

@@ -67,13 +67,13 @@ function NewCompany() {
 
     async function handleSubmit(e) {
         e.preventDefault()
-        
+
         if (companyId) {
             dispatch(updateCompany({ companyId, companyData: formData }))
                 .unwrap()
                 .then((response) => {
                     navigate('/companies')
-                    
+
                     toast('Company saved', {
                         autoClose: 3000,
                     })
@@ -96,14 +96,17 @@ function NewCompany() {
 
     return (
         <div className='page newCompanyPage'>
-            <h1 className='text-primary pl-8'>
-                {companyId ? 'Edit' : 'New'} Company
-            </h1>
+            <div className='header'>
+                <h1 className='text-primary pl-8'>
+                    {companyId ? 'Edit' : 'New'} Company
+                </h1>
+            </div>
+
             <form
                 className='flex gap-8 mb-8 mt-5 flex-wrap'
                 onSubmit={handleSubmit}
             >
-                <div className='grow col'>
+                <div className='grow side'>
                     <label htmlFor='name'>
                         <p>Name</p>
                         <input
@@ -115,16 +118,15 @@ function NewCompany() {
                             autoComplete='off'
                         />
                     </label>
-                    <div className='formLine'>
+                    
                         <label htmlFor='location'>
                             <p>Location</p>
-                            <input
-                                type='text'
+                            <textarea
                                 id='location'
                                 name='location'
                                 value={location}
                                 onChange={handleChange}
-                            />
+                            ></textarea>
                         </label>
                         <label htmlFor='commute'>
                             <p>Commute Time</p>
@@ -136,7 +138,7 @@ function NewCompany() {
                                 value={commuteTime}
                             />
                         </label>
-                    </div>
+                    
                     <label htmlFor='logo'>
                         <p>Logo URL</p>
                         <input
@@ -185,7 +187,7 @@ function NewCompany() {
                         </button>
                     </div>
                 </div>
-                <div className='col'>
+                <div className='side'>
                     <div className='logo' ref={logoRef}></div>
                 </div>
             </form>

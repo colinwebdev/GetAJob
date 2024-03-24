@@ -5,13 +5,6 @@ const skillSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    have: {
-        type: Boolean,
-        default: false
-    },
-    level: {
-        type: String
-    }
 
 })
 

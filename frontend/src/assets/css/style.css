@@ -124,8 +124,67 @@
   align-items: center;
 }
 
-.listCard {
+.listCard,
+.skillCard {
   @apply bg-white w-full p-5 rounded-md shadow-sm shadow-accent/15 text-black/60 relative;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0 1rem;
+}
+table thead th {
+  @apply text-primary border-b-2 border-primary font-normal pb-3 text-left;
+  font-family: "Michroma";
+}
+table tbody tr {
+  @apply shadow-sm shadow-accent/15 rounded-lg bg-white text-primary overflow-hidden;
+}
+table tbody td {
+  @apply px-3 py-5;
+}
+table tbody td:first-of-type {
+  @apply rounded-l-lg pl-5;
+}
+table tbody td:last-of-type {
+  @apply rounded-r-lg pr-5;
+}
+table tbody td.logo {
+  @apply pl-2 pr-2 overflow-hidden;
+}
+table tbody td.logo a {
+  @apply flex justify-center items-center;
+  height: 100%;
+}
+table tbody td.logo img {
+  max-height: 24px;
+  width: auto;
+  filter: drop-shadow(0 0 2px rgba(32, 60, 161, 0.25));
+}
+
+.skills .have {
+  @apply block;
+  width: 37px;
+}
+.skills .have .box {
+  @apply border rounded-sm shadow-sm shadow-accent/15;
+  height: 25px;
+  width: 25px;
+}
+.skills .have .box.checked {
+  @apply shadow-none border-none bg-secondary/50;
+}
+.skills .name {
+  min-width: 200px;
+}
+.skills .skillCard {
+  @apply flex gap-5;
+}
+.skills .skillCard svg {
+  margin: 0;
+}
+.skills .wideList {
+  margin-top: 0.5rem;
 }
 
 input,
@@ -139,6 +198,21 @@ textarea:focus-visible {
 
 textarea {
   min-height: 250px;
+}
+textarea#location {
+  min-height: 64px;
+}
+
+fieldset {
+  @apply border border-secondary px-5 rounded-lg;
+}
+fieldset legend {
+  @apply p-2 bg-base-100 text-secondary;
+  font-size: 1.15rem;
+  font-family: "Michroma";
+}
+fieldset .sourceBox {
+  width: 15%;
 }
 
 form {
@@ -168,6 +242,7 @@ h3 {
 }
 
 nav.sidePanel {
+  @apply text-base-100 fixed h-screen bg-gradient-to-b from-secondary to-primary;
   font-family: "Michroma";
   border-radius: 0 50px 50px 0;
   overflow: hidden;
@@ -176,6 +251,7 @@ nav.sidePanel {
   width: 300px;
 }
 nav.sidePanel h1 {
+  @apply border-b-8 border-base-100;
   font-size: 1.5rem;
   text-align: center;
   padding: 2rem 3rem 2rem;
@@ -190,6 +266,12 @@ nav.sidePanel .links .linkWrap,
 nav.sidePanel .links .linkGroup {
   display: flex;
   gap: 1rem;
+}
+nav.sidePanel .links .subLinkWrap {
+  @apply border-base-100 border-t-2 before:border-base-100 before:border-b-2 before:border-l-2;
+}
+nav.sidePanel .links .subLinkWrap svg {
+  display: none;
 }
 nav.sidePanel .links .linkWrap {
   padding: 0.5rem 3rem;
@@ -221,9 +303,14 @@ nav.sidePanel .sideBottom {
   margin-left: 300px;
   padding: 2rem;
 }
+.page .autoSaveSpinner {
+  position: absolute;
+  z-index: 999;
+  right: 10px;
+  top: 10px;
+}
 .page h1 {
   @apply text-primary;
-  font-size: 3rem;
   padding-left: 2rem;
 }
 .page h2 {
@@ -238,14 +325,51 @@ nav.sidePanel .sideBottom {
   margin-top: 1rem;
 }
 .page .header {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 .page .header h1 {
   padding: 0;
+  font-size: 3rem;
 }
 .page .header img {
-  height: 100px;
-  width: auth;
+  height: 75px;
+  width: auto;
+}
+.page .header .linkButtons a {
+  @apply text-white;
+}
+.page.listing .header {
+  margin-bottom: 0.5rem;
+}
+.page.listing .underHeader svg {
+  @apply text-secondary/50;
+}
+.page.notes .noteBox {
+  background-color: transparent;
+}
+.page.notes .noteBox .date {
+  border-radius: 0;
+}
+.page.notes .noteBox .textBlock {
+  max-width: 100%;
+}
+.page.notes .noteBox p:last-of-type {
+  margin-bottom: 0;
+}
+.page.notes .note {
+  @apply border border-secondary rounded-lg mb-5;
+}
+.page.notes .addNote {
+  position: relative;
+}
+.page.notes .addNote .iconWrap {
+  @apply flex justify-center items-center;
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
 }
 .page .spinnerWrap {
   @apply bg-secondary/40;
@@ -261,7 +385,33 @@ nav.sidePanel .sideBottom {
 .page .col {
   width: calc(50% - 1rem);
 }
-.page.company .map {
+
+.side.notes {
+  max-width: 700px;
+}
+.side input[type=checkbox] {
+  border: none;
+  margin-bottom: 0;
+}
+.side .collapse-arrow > .collapse-title:after {
+  opacity: 0.35;
+}
+
+.textBlock {
+  padding: 1rem 0;
+  max-width: 700px;
+}
+.textBlock p {
+  margin-bottom: 1rem;
+}
+.textBlock ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.map,
+.noMap {
   @apply shadow-lg shadow-accent/15;
   width: calc(100% + 4rem);
   margin-left: -2rem;
@@ -270,11 +420,22 @@ nav.sidePanel .sideBottom {
   background-color: rgba(13, 69, 104, 0.2);
 }
 
+.noMap {
+  @apply flex items-center justify-center;
+}
+.noMap h2 {
+  @apply text-neutral/50;
+}
+
 .newCompanyPage .logo {
   height: 200px;
   width: 200px;
   border-radius: 20px;
   overflow: hidden;
+}
+
+.companyCard {
+  @apply bg-white w-full p-5 rounded-xl shadow-sm shadow-accent/15 text-black/60 relative;
 }
 
 .btn {
@@ -318,8 +479,6 @@ nav.sidePanel .sideBottom {
 .details .pale .icon,
 .details .dimmed .icon {
   @apply text-primary/65;
-  height: 24px;
-  width: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -329,6 +488,13 @@ nav.sidePanel .sideBottom {
 }
 .details .dimmed {
   @apply text-neutral/40;
+}
+
+.skillsList {
+  padding: 1rem 0;
+}
+.skillsList .skill {
+  @apply bg-secondary/15 px-4 py-2 rounded-md text-secondary;
 }
 
 .spinner {
@@ -351,8 +517,32 @@ nav.sidePanel .sideBottom {
   border-width: 20px;
 }
 
+.notes .noteHeader {
+  font-size: 2.5rem;
+}
+.notes .noteBox {
+  @apply bg-secondary/15 rounded-xl mb-6 p-5;
+  overflow: hidden;
+}
+.notes .noteBox .date {
+  @apply bg-secondary/15 font-bold text-secondary py-2 px-5 text-right rounded-full;
+}
+.notes .noteBox .noteBody {
+  @apply flex flex-col gap-2 my-6 px-8;
+}
+
 .Toastify .Toastify__toast--error svg {
   fill: #fa4c76;
+}
+
+.fade {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+.vShrink {
+  margin-top: -9%;
+  transition: margin 0.3s ease-out 0.3s;
 }
 
 /* Always set the map height explicitly to define the size of the div
@@ -367,6 +557,106 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+.Modal {
+  @apply bg-base-100 p-10 rounded-xl shadow-lg shadow-accent/50;
+  position: absolute;
+  top: 60px;
+  left: 60px;
+  right: 60px;
+  border: none;
+  outline: none;
+}
+.Modal input {
+  margin-bottom: 0;
+}
+.Modal .loaderBox {
+  width: 30px;
+}
+.Modal .close {
+  @apply shadow-sm shadow-accent/75;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+}
+.Modal h1 {
+  @apply text-primary;
+  font-size: 2rem;
+  font-family: "Michroma";
+}
+.Modal .swap input[type=checkbox] {
+  border: none;
+  margin-bottom: 0;
+}
+.Modal .swap .swap-option {
+  @apply p-3 rounded-lg flex justify-center items-center;
+  min-width: 100px;
+  min-height: 52px;
+}
+.Modal label span {
+  font-family: "Michroma";
+  font-size: 1.15rem;
+  font-weight: bold;
+}
+.Modal .formLine {
+  margin-bottom: 2rem;
+  gap: 2.5rem;
+}
+.Modal .bottomLine {
+  @apply flex justify-between items-center;
+}
+.Modal .bottomLine .archive .btn {
+  @apply flex justify-center items-center;
+  width: 200px;
+}
+
+.page.dashboard {
+  min-height: 100vh;
+}
+.page.dashboard a,
+.page.dashboard a h3 {
+  @apply w-full flex gap-4 items-center;
+}
+.page.dashboard a svg,
+.page.dashboard a h3 svg {
+  margin: 0;
+}
+.page.dashboard a h3 {
+  @apply text-primary;
+}
+
+.dashCard {
+  @apply bg-white shadow-sm shadow-accent/15 p-5 rounded-lg;
+}
+
+.dashCol {
+  padding-bottom: 2rem;
+}
+.dashCol h3 {
+  margin-bottom: 1rem;
+}
+.dashCol .spinnerCol {
+  @apply w-full h-full flex justify-center items-center bg-secondary/15 rounded-lg;
+}
+
+.Overlay {
+  @apply bg-secondary/50;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.hideText {
+  opacity: 0;
+  transition: opacity 0.25s ease-in;
+}
+
+.showText {
+  opacity: 1 !important;
+  transition: opacity 0.25s ease-out;
 }
 
 @keyframes rotation {
@@ -386,6 +676,112 @@ body {
   }
   .formCols .largeFields textarea {
     min-height: 200px;
+  }
+}
+@media (max-width: 1000px) {
+  .Modal .formLine {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+@media (max-width: 900px) {
+  nav.sidePanel {
+    @apply sticky w-full h-min flex flex-row bg-gradient-to-r;
+    border-radius: 0;
+  }
+  nav.sidePanel h1 {
+    @apply border-b-0 text-nowrap;
+    margin: 1rem auto 1rem 3rem;
+    padding: 0.25rem 0 0;
+  }
+  nav.sidePanel .links {
+    @apply flex flex-row;
+    margin: 1rem;
+  }
+  nav.sidePanel .links .linkWrap {
+    padding: 0.5rem;
+  }
+  nav.sidePanel .links span {
+    display: none;
+  }
+  nav.sidePanel .links .linkGroup {
+    @apply flex flex-row gap-3 items-center;
+  }
+  nav.sidePanel .links .subLinkWrap {
+    border: 0;
+    margin-left: 0;
+  }
+  nav.sidePanel .links .subLinkWrap svg {
+    display: block;
+  }
+  nav.sidePanel .links .subLinkWrap::before {
+    display: none;
+  }
+  nav.sidePanel .sideBottom {
+    display: none;
+  }
+  .page {
+    margin-left: 0;
+  }
+}
+@media (max-width: 745px) {
+  nav.sidePanel h1 {
+    display: none;
+  }
+  nav.sidePanel .links {
+    @apply w-full justify-between;
+    flex-wrap: wrap;
+  }
+  nav.sidePanel .links .linkWrap {
+    padding: 0;
+  }
+  nav.sidePanel .links .subLinkWrap {
+    padding: 0;
+  }
+}
+@media (max-width: 628px) {
+  .page .header h1 {
+    font-size: 2rem;
+  }
+  .details {
+    display: block;
+    margin-top: 1rem;
+  }
+  .underHeader {
+    margin-left: 0 !important;
+    gap: 10px !important;
+  }
+  .listing .dates {
+    display: block;
+  }
+  .listing .dates svg {
+    display: none;
+  }
+  .Modal {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+  }
+  .Modal .close {
+    top: 15px;
+    right: 15px;
+  }
+  .Modal .bottomLine {
+    justify-content: space-between;
+  }
+  .Modal .bottomLine .archive {
+    width: 100%;
+  }
+  .Modal .bottomLine .archive .btn {
+    margin-left: auto;
+  }
+  .Modal .bottomLine .bottomInfo {
+    display: none;
+  }
+}
+@media (max-width: 435px) {
+  nav.sidePanel .links {
+    @apply justify-center;
   }
 }
 

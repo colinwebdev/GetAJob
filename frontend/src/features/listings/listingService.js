@@ -15,6 +15,17 @@ async function createListing(listingData, token) {
     return response.data
 }
 
+async function getDashboard(token) {
+    let config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    }
+    let response = await axios.get(API_URL + 'dash', config)
+
+    return response.data
+}
+
 // Get listings
 async function getListings(token) {
     let config = {
@@ -27,6 +38,44 @@ async function getListings(token) {
     return response.data
 }
 
+// Filter listings
+async function filterListings(filterType, token) {
+    let config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    
+    let response = await axios.get(API_URL + 'filter/' + filterType, config)
+    return response.data
+}
+
+// Get listings
+async function skillListings(skillId, token) {
+    let config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    
+    let response = await axios.get(API_URL + 'withSkill/' + skillId, config)
+    return response.data
+}
+
+// Create update listing
+async function updateListing(listingId, listingData, token) {
+    
+    let config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    let response = await axios.put(API_URL + listingId, listingData, config)
+
+    return response.data
+}
+
 // Get listing
 async function getListing(listingId, token) {
     let config = {
@@ -36,6 +85,18 @@ async function getListing(listingId, token) {
     }
 
     let response = await axios.get(API_URL + listingId, config)
+    return response.data
+}
+
+// Delete listing
+async function deleteListing(listingId, token) {
+    let config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    let response = await axios.delete(API_URL + listingId, config)
     return response.data
 }
 
@@ -71,7 +132,11 @@ let listingService = {
     createListing,
     getListings,
     getListing,
-    closeListing,
+    deleteListing,
     searchListings,
+    updateListing,
+    getDashboard,
+    filterListings,
+    skillListings
 }
 export default listingService

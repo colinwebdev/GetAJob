@@ -5,6 +5,7 @@ const initialState = {
     listings: [],
     listingsCount: 0,
     listing: {},
+    dashboard: {},
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -31,13 +32,36 @@ export const createListing = createAsyncThunk(
     }
 )
 
+export const getDashboard = createAsyncThunk(
+    'listings/dash',
+    async (_, thunkAPI) => {
+        try {
+            let token = thunkAPI.getState().auth.user.token
+            return await listingService.getDashboard(token)
+        } catch (error) {
+            let message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
+
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
 //  Update listing
 export const updateListing = createAsyncThunk(
     'listings/update',
-    async ({listingData, listingId}, thunkAPI) => {
+    async ({ listingId, listingData }, thunkAPI) => {
         try {
             let token = thunkAPI.getState().auth.user.token
-            return await listingService.updateListing(listingData, token)
+            return await listingService.updateListing(
+                listingId,
+                listingData,
+                token
+            )
         } catch (error) {
             let message =
                 (error.response &&
@@ -71,18 +95,14 @@ export const getListings = createAsyncThunk(
     }
 )
 
-//  Search Listings
-export const searchListings = createAsyncThunk(
-    'listings/search',
-    async ({field, text}, thunkAPI) => {
+//  Filter Listings
+export const filterListings = createAsyncThunk(
+    'listings/filter',
+    async (filterType, thunkAPI) => {
         try {
-            if (text) {
-                let token = thunkAPI.getState().auth.user.token
-                return await listingService.searchListings(field, text, token)
-            } else {
-                return null
-            }
             
+            let token = thunkAPI.getState().auth.user.token
+            return await listingService.filterListings(filterType, token)
         } catch (error) {
             let message =
                 (error.response &&
@@ -90,7 +110,51 @@ export const searchListings = createAsyncThunk(
                     error.response.data.message) ||
                 error.message ||
                 error.toString()
+
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
+export const skillListings = createAsyncThunk(
+    'listings/skills',
+    async (skillId, thunkAPI) => {
+        try {
             
+            let token = thunkAPI.getState().auth.user.token
+            return await listingService.skillListings(skillId, token)
+        } catch (error) {
+            let message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
+
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
+//  Search Listings
+export const searchListings = createAsyncThunk(
+    'listings/search',
+    async ({ field, text }, thunkAPI) => {
+        try {
+            if (text) {
+                let token = thunkAPI.getState().auth.user.token
+                return await listingService.searchListings(field, text, token)
+            } else {
+                return null
+            }
+        } catch (error) {
+            let message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
+
             return thunkAPI.rejectWithValue(message)
         }
     }
@@ -116,13 +180,13 @@ export const getListing = createAsyncThunk(
     }
 )
 
-// Close Listing
-export const closeListing = createAsyncThunk(
-    'listings/close',
+//  Delete Listing
+export const deleteListing = createAsyncThunk(
+    'listings/delete',
     async (listingId, thunkAPI) => {
         try {
             let token = thunkAPI.getState().auth.user.token
-            return await listingService.closeListing(listingId, token)
+            return await listingService.deleteListing(listingId, token)
         } catch (error) {
             let message =
                 (error.response &&
@@ -196,7 +260,45 @@ export const listingSlice = createSlice({
                 state.isError = true
                 state.message = action.payload
             })
-           
+            .addCase(getDashboard.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(getDashboard.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getDashboard.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.dashboard = action.payload
+            })
+            .addCase(filterListings.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(filterListings.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.listings = action.payload
+            })
+            .addCase(filterListings.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(skillListings.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(skillListings.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.listings = action.payload
+            })
+            .addCase(skillListings.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
     },
 })
 

@@ -1,11 +1,20 @@
 const asyncHandler = require('express-async-handler')
 const Skill = require('../models/skillModel')
+const Listing = require('../models/listingModel')
 
 // @desc Get all skills
 // @route GET /api/skills
 // @access Public
 const getSkills = asyncHandler(async (req, res) => {
-    let skills = await Skill.find()
+    let getSkills = await Skill.find()
+    let skills = []
+    for (let skill of getSkills) {
+        let countSkill = await Listing.find({ skills: skill._id }).count()
+        skills.push({
+            ...skill._doc,
+            count: countSkill,
+        })
+    }
     res.status(200).json(skills)
 })
 
@@ -28,6 +37,25 @@ const getSkill = asyncHandler(async (req, res) => {
             res.status(400)
             throw new Error('Something went wrong')
         }
+    }
+})
+
+// @desc Search skills
+// @route GET /api/skills/search/:field/:text
+// @access Private
+const searchSkills = asyncHandler(async (req, res) => {
+    let limit = req.params.limit ? req.params.limit : 0
+    try {
+        let skills = await Skill.find({
+            [req.params.field]: { $regex: new RegExp(req.params.text, 'i') },
+        })
+            .sort('name')
+            .limit(limit)
+
+        res.status(200).json(skills)
+    } catch (error) {
+        res.status(400)
+        throw new Error(error)
     }
 })
 
@@ -66,13 +94,12 @@ const updateSkill = asyncHandler(async (req, res) => {
             res.status(404)
             throw new Error('Skill not found')
         }
-        console.log('old skill', skill)
+
         let updatedListing = await Skill.findByIdAndUpdate(
             req.params.id,
             req.body,
             { new: true }
         )
-        console.log('newListing', updatedListing)
 
         res.status(200).json(updatedListing)
     } catch (error) {
@@ -90,16 +117,12 @@ const updateSkill = asyncHandler(async (req, res) => {
 // @route POST /api/skills
 // @access Public
 const createSkill = asyncHandler(async (req, res) => {
-    let {
-        name,
-        have,
-        level
-    } = req.body
+    let { name, have, level } = req.body
 
     let skill = await Skill.create({
         name,
         have,
-        level
+        level,
     })
     res.status(201).json(skill)
 })

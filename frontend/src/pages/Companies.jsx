@@ -22,19 +22,41 @@ function Companies() {
 
     return (
         <div className='page companies'>
-            <h1>Companies</h1>
+            <div className='header'>
+                <h1>Companies</h1>
+            </div>
+
             <div className='companiesDetailList wideList mt-5 mb-8'>
-                {companies.length === 0 && (
+                {companies.length === 0 ? (
                     <div className='flex p-5 justify-center items-center flex-col'>
                         <p>No companies added, yet</p>
                         <p className='addItem'>
-                            <Link to='/newCompany'><FontAwesomeIcon icon={faAdd} /> Add one</Link>
+                            <Link to='/newCompany'>
+                                <FontAwesomeIcon icon={faAdd} /> Add one
+                            </Link>
                         </p>
                     </div>
+                ) : (
+                    <table className='table-auto'>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Location</th>
+                                <th>Industry</th>
+                                <th># Jobs</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {companies.map((company) => (
+                                <CompanyListItem
+                                    key={company._id}
+                                    company={company}
+                                />
+                            ))}
+                        </tbody>
+                    </table>
                 )}
-                {companies.map((company) => (
-                    <CompanyListItem key={company._id} company={company} />
-                ))}
             </div>
         </div>
     )

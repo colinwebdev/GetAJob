@@ -96,7 +96,7 @@ const deleteCompany = asyncHandler(async (req, res) => {
 // @route PUT /api/companies/:id
 // @access Public
 const updateCompany = asyncHandler(async (req, res) => {
-    console.log('in Controller')
+    
     try {
         let company = await Company.findById(req.params.id)
         if (!company) {

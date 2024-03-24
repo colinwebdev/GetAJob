@@ -4,6 +4,7 @@ const API_URL = '/api/companies/'
 
 // Create new company
 async function createCompany(companyData, token) {
+    console.log(companyData)
     let config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -54,6 +55,19 @@ async function getCompany(companyId, token) {
     return response.data
 }
 
+// Delete company
+async function deleteCompany(companyId, token) {
+    let config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    
+    let response = await axios.delete(API_URL + companyId, config)
+
+    return response.data
+}
+
 // Update company
 async function updateCompany(companyId, companyData, token) {
     
@@ -89,6 +103,7 @@ let companyService = {
     getCompany,
     closeCompany,
     updateCompany,
-    searchCompanies
+    searchCompanies,
+    deleteCompany
 }
 export default companyService

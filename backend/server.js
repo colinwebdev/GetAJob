@@ -20,6 +20,7 @@ app.get('/', (req, res) => {
 app.use('/api/listings', require('./routes/listingRoutes'))
 app.use('/api/companies', require('./routes/companyRoutes'))
 app.use('/api/skills', require('./routes/skillRoutes'))
+app.use('/api/notes', require('./routes/noteRoutes'))
 
 app.use('/api/users', require('./routes/userRoutes'))
 

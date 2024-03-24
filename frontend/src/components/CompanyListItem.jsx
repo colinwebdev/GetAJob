@@ -1,29 +1,37 @@
 import PropTypes from 'prop-types'
-import { searchListings } from '../features/listings/listingSlice'
-import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { useState, useRef, useEffect } from 'react'
-import Spinner from './Spinner'
 
 function CompanyListItem({ company }) {
-    // let [isLoading, setIsLoading] = useState(true)
-
-    let devID = '65d84dcb2de456bef846908a'
-
-    let [itemCount, setItemCount] = useState('')
-
-    let dispatch = useDispatch()
+    function formatAddress(text) {
+        if (!text) return
+        let breakText = text.split('\n')
+        
+        return breakText.map((item, i)=>{
+            return <p key={i}>{item}</p>
+        })
+        
+    }
 
     return (
-        <Link to={`/company/${company._id}`} className='listCard flex gap-5 companyList'>
-            <div className='logo'>
-                <img src={company.logo}></img>
-            </div>
-            <div className='name grow'>{company.name}</div>
-            <div className='location'>{company.location}</div>
-            <div className='industry'>{company.industry}</div>
-            <div className="numJobs font-bold">{company.listings.length !== 0 && company.listings.length }</div>
-        </Link>
+        <tr>
+            <td className='logo'>
+                {company.logoUrl && (
+                    <Link to={`/company/${company._id}`}>
+                        <img src={company.logoUrl}></img>
+                    </Link>
+                )}
+            </td>
+            <td>
+                <Link to={`/company/${company._id}`} className='name'>
+                    {company.name}
+                </Link>
+            </td>
+            <td className='location'>{formatAddress(company.location)}</td>
+            <td className='industry'>{company.industry}</td>
+            <td className='numJobs font-bold'>
+                {company.listings.length !== 0 && company.listings.length}
+            </td>
+        </tr>
     )
 }
 
