@@ -11,11 +11,6 @@ const listingSchema = mongoose.Schema(
             required: true,
             ref: 'Company',
         },
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'Users',
-        },
         datePosted: {
             type: Date,
         },

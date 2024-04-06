@@ -14,9 +14,9 @@ export const createNote = createAsyncThunk(
     'notes/create',
     async (noteData, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await noteService.createNote(noteData, token)
+            return await noteService.createNote(noteData)
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -34,9 +34,10 @@ export const getNotes = createAsyncThunk(
     'notes/getAll',
     async (_, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await noteService.getNotes(token)
+            
+            return await noteService.getNotes()
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -55,9 +56,9 @@ export const deleteNote = createAsyncThunk(
     'note/delete',
     async (noteId, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await noteService.deleteNote(noteId, token)
+            return await noteService.deleteNote(noteId)
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -76,9 +77,10 @@ export const getNote = createAsyncThunk(
     'notes/get',
     async (noteId, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await noteService.getNote(noteId, token)
+            
+            return await noteService.getNote(noteId)
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -96,9 +98,10 @@ export const updateNote = createAsyncThunk(
     'notes/update',
     async ({noteId, noteData}, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await noteService.updateNote(noteId, noteData, token)
+            
+            return await noteService.updateNote(noteId, noteData)
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&

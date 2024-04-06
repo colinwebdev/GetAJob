@@ -14,9 +14,10 @@ export const createSkill = createAsyncThunk(
     'skills/create',
     async (skillData, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await skillService.createSkill(skillData, token)
+            
+            return await skillService.createSkill(skillData)
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -34,9 +35,10 @@ export const getSkills = createAsyncThunk(
     'skills/getAll',
     async (_, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await skillService.getSkills(token)
+            
+            return await skillService.getSkills()
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -54,9 +56,10 @@ export const deleteSkill = createAsyncThunk(
     'skills/delete',
     async (skillId, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await skillService.deleteSkill(skillId, token)
+            
+            return await skillService.deleteSkill(skillId)
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -75,12 +78,13 @@ export const searchSkills = createAsyncThunk(
     async ({field, text}, thunkAPI) => {
         try {
             if (text) {
-                let token = thunkAPI.getState().auth.user.token
-                return await skillService.searchSkills(field, text, token)
+                
+                return await skillService.searchSkills(field, text)
             } else {
                 return null
             }
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -99,9 +103,10 @@ export const getSkill = createAsyncThunk(
     'skills/get',
     async (skillId, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await skillService.getSkill(skillId, token)
+            
+            return await skillService.getSkill(skillId)
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -119,9 +124,10 @@ export const updateSkill = createAsyncThunk(
     'skills/update',
     async ({skillId, skillData}, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await skillService.updateSkill(skillId, skillData, token)
+            
+            return await skillService.updateSkill(skillId, skillData)
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&

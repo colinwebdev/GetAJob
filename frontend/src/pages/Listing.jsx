@@ -222,7 +222,7 @@ function Listing() {
             {listing.pay && (
                 <div className='pay ml-5 text-3xl text-primary'>
                     {listing.pay > 0 && '$'}
-                    {listing.pay}
+                    {Number(listing.pay).toLocaleString()}
                     {listing.payBasis && <>/{listing.payBasis}</>}
                 </div>
             )}

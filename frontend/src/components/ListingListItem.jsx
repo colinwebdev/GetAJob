@@ -18,7 +18,7 @@ function ListingListItem({ listing }) {
             <td className='type'>{listing.type}</td>
             <td className='pay'>
                 {listing.pay > 0 && '$'}
-                {listing.pay}
+                {listing.pay && Number(listing.pay).toLocaleString()}
                 {listing.payBasis && <>/{listing.payBasis}</>}
             </td>
             <td className='isRemote'></td>

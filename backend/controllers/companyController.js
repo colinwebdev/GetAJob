@@ -142,6 +142,12 @@ const createCompany = asyncHandler(async (req, res) => {
         industry,
     } = req.body
 
+    let notesObj = {}
+        if (notes) 
+            notesObj = {
+                [Date.now()]: notes,
+            }
+
     let company = await Company.create({
         name,
         location,
@@ -150,7 +156,7 @@ const createCompany = asyncHandler(async (req, res) => {
         isValid,
         reasonNotValid,
         logoUrl,
-        notes,
+        notes: notesObj,
         size,
         socials,
         industry,

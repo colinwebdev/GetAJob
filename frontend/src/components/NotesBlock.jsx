@@ -1,7 +1,8 @@
 import globalService from '../features/global/globalService'
 
 function NotesBlock({ data }) {
-    if (Object.keys(data).length === 0)
+
+    if (!data || Object.keys(data).length === 0)
         return (
             <div className='noteBox'>
                 <p>No notes, yet</p>

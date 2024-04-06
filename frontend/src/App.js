@@ -10,7 +10,6 @@ import Skills from './pages/Skills'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import NewCompany from './pages/NewCompany'
-import PrivateRoute from './components/PrivateRoute'
 import Company from './pages/Company'
 import Listing from './pages/Listing'
 import NotFound from './pages/NotFound'
@@ -24,39 +23,17 @@ function App() {
                 <Panel />
                 <Routes>
                     <Route exact path='/' element={<Dashboard />} />
-                    <Route path='/listings' element={<PrivateRoute />}>
-                        <Route path='/listings' element={<Listings />} />
-                    </Route>
-                    <Route path='/listings/filter/:type' element={<PrivateRoute />}>
-                        <Route path='/listings/filter/:type' element={<Listings />} />
-                    </Route>
-                    <Route path='/listing/:listingId' element={<PrivateRoute />}>
-                        <Route path='/listing/:listingId' element={<Listing />} />
-                    </Route>
-                    <Route path='/listing/edit/:listingId' element={<PrivateRoute />}>
-                        <Route path='/listing/edit/:listingId' element={<NewListing />} />
-                    </Route>
-                    <Route path='/newListing' element={<PrivateRoute />}>
-                        <Route path='/newListing' element={<NewListing />} />
-                    </Route>
-                    <Route path='/companies' element={<PrivateRoute />}>
-                        <Route path='/companies' element={<Companies />} />
-                    </Route>
-                    <Route path='/company/:companyId' element={<Company />}>
-                        <Route path='/company/:companyId' element={<Company />} />
-                    </Route>
-                    <Route path='/company/edit/:companyId' element={<PrivateRoute />}>
-                        <Route path='/company/edit/:companyId' element={<NewCompany />} />
-                    </Route>
-                    <Route path='/newCompany' element={<PrivateRoute />}>
-                        <Route path='/newCompany' element={<NewCompany />} />
-                    </Route>
-                    <Route path='/skills' element={<PrivateRoute />}>
-                        <Route path='/skills' element={<Skills />} />
-                    </Route>
-                    <Route path='/notes' element={<PrivateRoute />}>
-                        <Route path='/notes' element={<Notes />} />
-                    </Route>
+                    <Route path='/listings' element={<Listings />} />
+                    <Route path='/listings/filter/:type' element={<Listings />} />
+                    <Route path='/listing/:listingId' element={<Listing />} />
+                    <Route path='/listing/edit/:listingId' element={<NewListing />} />
+                    <Route path='/newListing' element={<NewListing />} />
+                    <Route path='/companies' element={<Companies />} />
+                    <Route path='/company/:companyId' element={<Company />} />
+                    <Route path='/company/edit/:companyId' element={<NewCompany />} />
+                    <Route path='/newCompany' element={<NewCompany />} />
+                    <Route path='/skills' element={<Skills />} />
+                    <Route path='/notes' element={<Notes />} />
                     <Route path='/register' element={<Register />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/notFound' element={<NotFound />} />

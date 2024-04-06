@@ -8,16 +8,16 @@ const {
     updateNote
 } = require('../controllers/noteController')
 
-const { protect } = require('../middleware/authMiddleware')
+// const { protect } = require('../middleware/authMiddleware')
 
 router.route('/')
-    .get(protect, getNotes)
-    .post(protect, createNote)
+    .get(getNotes)
+    .post(createNote)
 
 router
     .route('/:id')
-    .get(protect, getNote)
-    .delete(protect, deleteNote)
-    .put(protect, updateNote)
+    .get(getNote)
+    .delete(deleteNote)
+    .put(updateNote)
 
 module.exports = router

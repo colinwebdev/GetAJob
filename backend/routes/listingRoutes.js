@@ -12,23 +12,21 @@ const {
     skillListings
 } = require('../controllers/listingController')
 
-const { protect } = require('../middleware/authMiddleware')
-
 router.get('/', getListings)
 router.post('/', createListing)
 
-router.route('/search/:field/:text').get(protect, searchListings)
+router.route('/search/:field/:text').get(searchListings)
 
-router.route('/filter/:type').get(protect, filterListings)
+router.route('/filter/:type').get(filterListings)
 
-router.route('/withSkill/:skillId').get(protect, skillListings)
+router.route('/withSkill/:skillId').get(skillListings)
 
-router.route('/dash').get(protect, getDashboard)
+router.route('/dash').get(getDashboard)
 
 router
     .route('/:id')
-    .get(protect, getListing)
-    .delete(protect, deleteListing)
-    .put(protect, updateListing)
+    .get(getListing)
+    .delete(deleteListing)
+    .put(updateListing)
 
 module.exports = router

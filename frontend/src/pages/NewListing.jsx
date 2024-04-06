@@ -53,7 +53,6 @@ function NewListing() {
 
     let initialState = {
         title: '',
-        user: user._id,
         companyID: 0,
         datePosted: '',
         skills: [],
@@ -70,7 +69,7 @@ function NewListing() {
         duration: '',
         directLink: '',
         closingDate: '',
-        notes: [],
+        notes: '',
         source: '',
         sourceLink: '',
     }
@@ -389,6 +388,7 @@ function NewListing() {
             dispatch(createListing(formData))
                 .unwrap()
                 .then((response) => {
+                    console.log('id:',response.id)
                     !nextPage
                         ? navigate(`/listing/${response._id}`)
                         : navigate(nextPage)

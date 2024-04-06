@@ -15,9 +15,10 @@ export const createCompany = createAsyncThunk(
     'companies/create',
     async (companyData, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await companyService.createCompany(companyData, token)
+            
+            return await companyService.createCompany(companyData)
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -35,9 +36,10 @@ export const getCompanies = createAsyncThunk(
     'companies/getAll',
     async (_, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await companyService.getCompanies(token)
+            
+            return await companyService.getCompanies()
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -56,12 +58,13 @@ export const searchCompanies = createAsyncThunk(
     async ({field, text}, thunkAPI) => {
         try {
             if (text) {
-                let token = thunkAPI.getState().auth.user.token
-                return await companyService.searchCompanies(field, text, token)
+                
+                return await companyService.searchCompanies(field, text)
             } else {
                 return null
             }
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -80,9 +83,10 @@ export const getCompany = createAsyncThunk(
     'companies/get',
     async (companyId, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await companyService.getCompany(companyId, token)
+            
+            return await companyService.getCompany(companyId)
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -100,9 +104,10 @@ export const updateCompany = createAsyncThunk(
     'companies/update',
     async ({companyId, companyData}, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await companyService.updateCompany(companyId, companyData, token)
+            
+            return await companyService.updateCompany(companyId, companyData)
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -120,9 +125,10 @@ export const deleteCompany = createAsyncThunk(
     'companies/delete',
     async (companyId, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await companyService.deleteCompany(companyId, token)
+            
+            return await companyService.deleteCompany(companyId)
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&

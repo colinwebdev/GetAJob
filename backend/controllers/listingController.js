@@ -338,7 +338,6 @@ const createListing = asyncHandler(async (req, res) => {
     try {
         let {
             title,
-            user,
             companyID,
             datePosted,
             skills,
@@ -352,6 +351,8 @@ const createListing = asyncHandler(async (req, res) => {
             descriptions,
             duration,
             directLink,
+            source,
+            sourceLink,
             isApplied,
             isClosed,
             closingDate,
@@ -362,9 +363,14 @@ const createListing = asyncHandler(async (req, res) => {
             responseDate,
         } = req.body
 
+        let notesObj = {}
+        if (notes) 
+            notesObj = {
+                [Date.now()]: notes,
+            }
+
         let listing = await Listing.create({
             title,
-            user,
             companyID,
             datePosted,
             skills,
@@ -378,18 +384,23 @@ const createListing = asyncHandler(async (req, res) => {
             descriptions,
             duration,
             directLink,
+            source,
+            sourceLink,
             isApplied,
             isClosed,
             closingDate,
             dateApplied,
             reasonNotApplied,
             response,
-            notes,
+            notes: notesObj,
             responseDate,
         })
         res.status(201).json(listing)
     } catch (error) {
+        console.log('controller')
         console.log(error)
+        res.status(400)
+        throw new Error('Could not create listing')
     }
 })
 

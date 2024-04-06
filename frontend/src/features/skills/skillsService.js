@@ -2,67 +2,41 @@ import axios from 'axios'
 
 const API_URL = '/api/skills/'
 
-async function createSkill(skillData, token) {
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
-    let response = await axios.post(API_URL, skillData, config)
+async function createSkill(skillData) {
+    
+    let response = await axios.post(API_URL, skillData)
     return response.data
 }
 
-async function getSkills(token) {
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
-    let response = await axios.get(API_URL, config)
+async function getSkills() {
+    
+    let response = await axios.get(API_URL)
     return response.data
 }
 
-async function getSkill(skillId, token) {
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
-
-    let response = await axios.get(API_URL + skillId, config)
+async function getSkill(skillId) {
+    
+    let response = await axios.get(API_URL + skillId)
 
     return response.data
 }
 
-async function searchSkills(field, text, token) {
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
-    let response = await axios.get(`${API_URL}/search/${field}/${text}`, config)
+async function searchSkills(field, text) {
+    
+    let response = await axios.get(`${API_URL}/search/${field}/${text}`)
     return response.data
 }
 
-async function updateSkill(skillId, skillData, token) {
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
-    let response = await axios.put(API_URL + skillId, skillData, config)
+async function updateSkill(skillId, skillData) {
+    
+    let response = await axios.put(API_URL + skillId, skillData)
     return response.data
 }
 
 // Delete skill
-async function deleteSkill(skillId, token) {
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
-
-    let response = await axios.delete(API_URL + skillId, config)
+async function deleteSkill(skillId) {
+    
+    let response = await axios.delete(API_URL + skillId)
     return response.data
 }
 

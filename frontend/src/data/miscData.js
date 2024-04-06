@@ -58,10 +58,7 @@ export let seniorityTypes = [
 ]
 
 export let educationLevels = [
-    {
-        name: 'None Listed',
-        abbr: 'N/A',
-    },
+
     {
         name: 'High School',
         abbr: 'HS',
@@ -92,4 +89,7 @@ export let sourceSites = [
     {
         name: 'Google',
     },
+    {
+        name: 'Glassdoor'
+    }
 ]

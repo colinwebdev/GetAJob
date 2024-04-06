@@ -3,130 +3,97 @@ import axios from 'axios'
 const API_URL = '/api/listings/'
 
 // Create new listing
-async function createListing(listingData, token) {
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
-
-    let response = await axios.post(API_URL, listingData, config)
-
+async function createListing(listingData) {
+    // let config = {
+    //     headers: {
+    //         Authorization: `Bearer ${token}`,
+    //     },
+    // }
+    
+    let response = await axios.post(API_URL, listingData)
+    console.log(response)
     return response.data
 }
 
-async function getDashboard(token) {
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
-    }
-    let response = await axios.get(API_URL + 'dash', config)
+async function getDashboard() {
+    // console.log(token)
+    // console.log('looking for:', API_URL + 'dash')
+    // let config = {
+    //     headers: {
+    //         Authorization: `Bearer ${token}`,
+    //     }
+    // }
+    let response = await axios.get(API_URL + 'dash')
 
     return response.data
 }
 
 // Get listings
-async function getListings(token) {
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
+async function getListings() {
+    // let config = {
+    //     headers: {
+    //         Authorization: `Bearer ${token}`,
+    //     },
+    // }
 
-    let response = await axios.get(API_URL, config)
+    let response = await axios.get(API_URL)
     return response.data
 }
 
 // Filter listings
-async function filterListings(filterType, token) {
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
+async function filterListings(filterType) {
+
     
-    let response = await axios.get(API_URL + 'filter/' + filterType, config)
+    let response = await axios.get(API_URL + 'filter/' + filterType)
     return response.data
 }
 
 // Get listings
-async function skillListings(skillId, token) {
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
+async function skillListings(skillId) {
+    // let config = {
+    //     headers: {
+    //         Authorization: `Bearer ${token}`,
+    //     },
+    // }
     
-    let response = await axios.get(API_URL + 'withSkill/' + skillId, config)
+    let response = await axios.get(API_URL + 'withSkill/' + skillId)
     return response.data
 }
 
 // Create update listing
-async function updateListing(listingId, listingData, token) {
+async function updateListing(listingId, listingData) {
     
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
 
-    let response = await axios.put(API_URL + listingId, listingData, config)
+
+    let response = await axios.put(API_URL + listingId, listingData)
 
     return response.data
 }
 
 // Get listing
-async function getListing(listingId, token) {
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
+async function getListing(listingId) {
 
-    let response = await axios.get(API_URL + listingId, config)
+
+    let response = await axios.get(API_URL + listingId)
     return response.data
 }
 
 // Delete listing
-async function deleteListing(listingId, token) {
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
+async function deleteListing(listingId) {
 
-    let response = await axios.delete(API_URL + listingId, config)
+
+    let response = await axios.delete(API_URL + listingId)
     return response.data
 }
 
 // Search listings
-async function searchListings(field, text, token) {
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
+async function searchListings(field, text) {
+
     
-    let response = await axios.get(`${API_URL}/search/${field}/${text}`, config).then()
+    let response = await axios.get(`${API_URL}/search/${field}/${text}`).then()
     return response.data
 }
 
-// Close listing
-async function closeListing(listingId, token) {
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
-
-    let response = await axios.put(
-        API_URL + listingId,
-        { status: 'closed' },
-        config
-    )
-    return response.data
-}
 
 let listingService = {
     createListing,

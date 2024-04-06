@@ -17,9 +17,10 @@ export const createListing = createAsyncThunk(
     'listings/create',
     async (listingData, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await listingService.createListing(listingData, token)
+            let data = await listingService.createListing(listingData)
+            return data
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -35,10 +36,12 @@ export const createListing = createAsyncThunk(
 export const getDashboard = createAsyncThunk(
     'listings/dash',
     async (_, thunkAPI) => {
+        
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await listingService.getDashboard(token)
+            
+            return await listingService.getDashboard()
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -56,13 +59,13 @@ export const updateListing = createAsyncThunk(
     'listings/update',
     async ({ listingId, listingData }, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
             return await listingService.updateListing(
                 listingId,
-                listingData,
-                token
+                listingData
+                
             )
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -80,8 +83,8 @@ export const getListings = createAsyncThunk(
     'listings/getAll',
     async (_, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await listingService.getListings(token)
+            
+            return await listingService.getListings()
         } catch (error) {
             let message =
                 (error.response &&
@@ -101,9 +104,10 @@ export const filterListings = createAsyncThunk(
     async (filterType, thunkAPI) => {
         try {
             
-            let token = thunkAPI.getState().auth.user.token
-            return await listingService.filterListings(filterType, token)
+            
+            return await listingService.filterListings(filterType)
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -121,9 +125,10 @@ export const skillListings = createAsyncThunk(
     async (skillId, thunkAPI) => {
         try {
             
-            let token = thunkAPI.getState().auth.user.token
-            return await listingService.skillListings(skillId, token)
+            
+            return await listingService.skillListings(skillId)
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -142,12 +147,13 @@ export const searchListings = createAsyncThunk(
     async ({ field, text }, thunkAPI) => {
         try {
             if (text) {
-                let token = thunkAPI.getState().auth.user.token
-                return await listingService.searchListings(field, text, token)
+                
+                return await listingService.searchListings(field, text)
             } else {
                 return null
             }
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -165,9 +171,10 @@ export const getListing = createAsyncThunk(
     'listings/get',
     async (listingId, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await listingService.getListing(listingId, token)
+            
+            return await listingService.getListing(listingId)
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&
@@ -185,9 +192,10 @@ export const deleteListing = createAsyncThunk(
     'listings/delete',
     async (listingId, thunkAPI) => {
         try {
-            let token = thunkAPI.getState().auth.user.token
-            return await listingService.deleteListing(listingId, token)
+            
+            return await listingService.deleteListing(listingId)
         } catch (error) {
+            console.log(error)
             let message =
                 (error.response &&
                     error.response.data &&

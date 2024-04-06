@@ -8,16 +8,16 @@ const {
     updateSkill
 } = require('../controllers/skillController')
 
-const { protect } = require('../middleware/authMiddleware')
+// const { protect } = require('../middleware/authMiddleware')
 
 router.route('/')
-    .get(protect, getSkills)
-    .post(protect, createSkill)
+    .get(getSkills)
+    .post(createSkill)
 
 router
     .route('/:id')
-    .get(protect, getSkill)
-    .delete(protect, deleteSkill)
-    .put(protect, updateSkill)
+    .get(getSkill)
+    .delete(deleteSkill)
+    .put(updateSkill)
 
 module.exports = router
